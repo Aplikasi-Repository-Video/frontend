@@ -3,8 +3,6 @@
     <main class="flex-1 bg-[#0f0b1d] overflow-y-auto px-6 pb-10">
       <Topbar :showCategory="false" :searchScope="'dashboard'" @search="handleSearch" />
 
-      <BackButton />
-
       <div v-if="!video" class="text-white">Loading video...</div>
 
       <div v-else class="max-w-4xl mx-auto space-y-6">
@@ -32,7 +30,6 @@
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Topbar from '@/components/layout/TopBar.vue'
-import BackButton from '@/components/video/detail/BackButton.vue'
 import VideoPlayer from '@/components/video/detail/VideoPlayer.vue'
 import VideoHeader from '@/components/video/detail/VideoHeader.vue'
 import VideoDescription from '@/components/video/detail/VideoDescription.vue'
