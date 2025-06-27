@@ -30,7 +30,6 @@ const toggleSidebar = () => {
   isOpen.value = !isOpen.value
 }
 
-// Ambil role dari token
 const token = localStorage.getItem('token') || ''
 let role = null
 
