@@ -1,8 +1,7 @@
-// src/stores/video.js
 import { defineStore } from 'pinia'
 import axios from '@/services/axios'
 
-function mapVideo(video) {
+export function mapVideo(video) {
   return {
     id: video.id,
     title: video.title,
@@ -51,7 +50,6 @@ export const useVideoStore = defineStore('video', {
           this.videoList.push(...allVideos.slice((this.page - 1) * this.limit, this.page * this.limit))
         }
 
-        // Deteksi apakah masih ada data tersisa
         this.hasMore = this.videoList.length < allVideos.length
         this.page++
       } catch (err) {
