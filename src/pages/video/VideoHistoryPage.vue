@@ -3,6 +3,7 @@
     <main
       ref="scrollRef"
       class="flex-1 bg-[#0f0b1d] overflow-y-auto no-scrollbar px-6 pb-6"
+      @scroll.passive="handleScroll"
     >
       <Topbar
         :showCategory="false"
@@ -60,18 +61,13 @@ function handleScroll() {
 }
 
 onMounted(() => {
-  // ✅ Hanya fetch kalau belum pernah dimuat
   if (!historyStore.isInitialized) {
     historyStore.fetchWatchHistory({ reset: true })
   }
-
-  const el = scrollRef.value
-  if (el) el.addEventListener('scroll', handleScroll)
 })
 
 onBeforeUnmount(() => {
-  const el = scrollRef.value
-  if (el) el.removeEventListener('scroll', handleScroll)
+  // Tidak perlu removeEventListener karena pakai @scroll
 })
 </script>
 

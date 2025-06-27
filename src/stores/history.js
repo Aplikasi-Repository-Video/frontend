@@ -17,22 +17,20 @@ function mapHistory(item) {
 
 export const useHistoryStore = defineStore('history', {
   state: () => ({
-    allVideoList: [],     // cache semua riwayat (untuk pencarian)
-    videoList: [],        // yang sedang ditampilkan
+    allVideoList: [],
+    videoList: [],
     isLoading: false,
     errorMessage: '',
     page: 1,
     limit: 12,
     hasMore: true,
     searchQuery: '',
+    isInitialized: false,
   }),
 
   actions: {
     async fetchWatchHistory({ reset = false } = {}) {
       if (this.isLoading) return
-
-      // ✅ Mencegah reload jika sudah pernah load dan bukan reset
-      if (this.isInitialized && !reset) return
       if (!this.hasMore && !reset) return
 
       if (reset) {
@@ -80,7 +78,7 @@ export const useHistoryStore = defineStore('history', {
         this.videoList.push(...nextVideos)
         this.hasMore = this.videoList.length < this.allVideoList.length
         this.page++
-        this.isInitialized = true // ✅ tandai bahwa sudah pernah dimuat
+        this.isInitialized = true
       } catch (error) {
         console.error('❌ Gagal mengambil riwayat video:', error)
         this.errorMessage = 'Gagal mengambil riwayat video'
