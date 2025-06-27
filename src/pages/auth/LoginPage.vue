@@ -36,22 +36,28 @@
           </div>
 
           <div class="relative">
+            <label class="block text-sm font-medium text-gray-700">Kata Sandi</label>
             <input
               v-model="password"
               :type="showPassword ? 'text' : 'password'"
               placeholder="Kata Sandi"
-              class="mt-1 w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
+              class="mt-1 w-full px-4 py-2 pr-24 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
+
+            <!-- Tombol teks ditaruh DI DALAM input (absolutely positioned) -->
             <button
               type="button"
               @click="showPassword = !showPassword"
-              class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+              class="absolute right-6 top-[35px] text-gray-500 hover:text-gray-700"
             >
-              <span v-if="showPassword" class="material-icons">visibility_off</span>
-              <span v-else class="material-icons">visibility</span>
+              <component
+                :is="showPassword ? EyeOff : Eye"
+                class="w-5 h-5"
+              />
             </button>
           </div>
+
 
           <button
             type="submit"
@@ -71,41 +77,51 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-import axios from 'axios'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from '@/services/axios'
+import { jwtDecode } from 'jwt-decode'
 import { useToast } from 'vue-toastification'
+import { useAuthStore } from '@/stores/auth'
+import { Eye, EyeOff } from 'lucide-vue-next'
 
-const bgUrl = new URL('@/assets/background.png', import.meta.url).href
 
 const email = ref('')
 const password = ref('')
-const router = useRouter()
-const toast = useToast()
 const showPassword = ref(false)
 
-const handleLogin = async (e) => {
-  e.preventDefault()
+const bgUrl = new URL('@/assets/background.png', import.meta.url).href
 
+const router = useRouter()
+const toast = useToast()
+const auth = useAuthStore()
+
+const handleLogin = async () => {
   try {
-    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login`, {
+    const res = await axios.post('/login', {
       email: email.value,
       password: password.value,
     })
 
-    const { token, user } = res.data
+    const { token } = res.data
 
+    // Simpan token dan decode user
     localStorage.setItem('token', token)
+
+    const decoded = jwtDecode(token)
+    auth.setUser(decoded)
 
     toast.success(`Selamat datang`)
 
-    if (user.role === 'ADMIN') {
-      router.push('/manage')
+    if (decoded.role === 'ADMIN') {
+      router.push('/admin/videos')
     } else {
       router.push('/videos')
     }
   } catch (err) {
-    toast.error(`Login gagal: ${err.response.data.message}`)
+    const message = err.response?.data?.message || 'Terjadi kesalahan saat login'
+    toast.error(`Login gagal: ${message}`)
   }
 }
 </script>
+

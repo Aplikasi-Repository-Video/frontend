@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen flex">
-    <!-- Kiri -->
     <div class="hidden md:block md:w-[30%] relative">
       <img
         src="@/assets/hero.jpg"
@@ -16,7 +15,6 @@
       </div>
     </div>
 
-    <!-- Kanan -->
     <div
       class="w-full md:w-[70%] flex items-center justify-center bg-no-repeat bg-cover bg-center p-6"
       :style="`background-image: url('${bgUrl}')`"
@@ -51,50 +49,63 @@
           </div>
 
           <!-- Password -->
-          <div>
+          <div class="relative">
             <label class="block text-sm font-medium text-gray-700">Kata Sandi</label>
             <input
               v-model="password"
-              required
-              type="password"
+              :type="showPassword ? 'text' : 'password'"
               placeholder="Kata Sandi"
-              :class="[
-                'mt-1 w-full px-4 py-2 border rounded-full focus:outline-none',
-                isPasswordTooShort
-                  ? 'border-red-500 ring-red-300 ring-2'
-                  : 'focus:ring-2 focus:ring-blue-400',
-              ]"
+              class="mt-1 w-full px-4 py-2 pr-12 border rounded-full focus:outline-none"
+              :class="isPasswordTooShort ? 'border-red-500 ring-red-300 ring-2' : 'focus:ring-2 focus:ring-blue-400'"
+              required
             />
+            <button
+              type="button"
+              @click="showPassword = !showPassword"
+              class="absolute right-4 top-[35px] text-gray-500 hover:text-gray-700"
+            >
+              <component :is="showPassword ? EyeOff : Eye" class="w-5 h-5" />
+            </button>
             <p v-if="isPasswordTooShort" class="text-sm text-red-500 mt-1">Minimal 6 karakter</p>
           </div>
 
           <!-- Konfirmasi Password -->
-          <div>
+          <div class="relative">
             <label class="block text-sm font-medium text-gray-700">Konfirmasi Kata Sandi</label>
             <input
               v-model="confirmPassword"
-              required
-              type="password"
+              :type="showConfirmPassword ? 'text' : 'password'"
               placeholder="Konfirmasi Kata Sandi"
-              :class="[
-                'mt-1 w-full px-4 py-2 border rounded-full focus:outline-none',
-                isPasswordMismatch
-                  ? 'border-red-500 ring-red-300 ring-2'
-                  : isPasswordMatch
-                    ? 'border-green-500 ring-green-300 ring-2'
-                    : 'focus:ring-2 focus:ring-blue-400',
-              ]"
+              class="mt-1 w-full px-4 py-2 pr-12 border rounded-full focus:outline-none"
+              :class="isPasswordMismatch
+                ? 'border-red-500 ring-red-300 ring-2'
+                : isPasswordMatch
+                  ? 'border-green-500 ring-green-300 ring-2'
+                  : 'focus:ring-2 focus:ring-blue-400'"
+              required
             />
-            <p v-if="isPasswordMismatch" class="text-sm text-red-500 mt-1">Password tidak cocok</p>
-            <p v-else-if="isPasswordMatch" class="text-sm text-green-500 mt-1">Password cocok</p>
+            <button
+              type="button"
+              @click="showConfirmPassword = !showConfirmPassword"
+              class="absolute right-4 top-[35px] text-gray-500 hover:text-gray-700"
+            >
+              <component :is="showConfirmPassword ? EyeOff : Eye" class="w-5 h-5" />
+            </button>
+            <p v-if="isPasswordMismatch" class="text-sm text-red-500 mt-1">Kata Sandi tidak cocok</p>
+            <p v-else-if="isPasswordMatch" class="text-sm text-green-500 mt-1">Kata Sandi cocok</p>
           </div>
 
-          <!-- Tombol -->
+          <!-- Tombol Submit -->
           <button
             type="submit"
-            class="w-full py-2 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
+            :disabled="isFormInvalid"
+            class="w-full py-2 rounded-full bg-indigo-600 text-white font-semibold transition"
+            :class="{
+              'opacity-60 cursor-not-allowed': isFormInvalid,
+              'hover:bg-indigo-700': !isFormInvalid
+            }"
           >
-            Lanjutkan
+            {{ isSubmitting ? 'Mendaftarkan...' : 'Lanjutkan' }}
           </button>
 
           <p class="text-sm text-gray-500 text-center">
@@ -111,7 +122,8 @@
 import { ref, computed } from 'vue'
 import { useToast } from 'vue-toastification'
 import { useRouter } from 'vue-router'
-import api from '@/lib/axios'
+import { Eye, EyeOff } from 'lucide-vue-next'
+import api from '@/services/axios'
 
 const bgUrl = new URL('@/assets/background.png', import.meta.url).href
 
@@ -119,51 +131,59 @@ const name = ref('')
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
+const showPassword = ref(false)
+const showConfirmPassword = ref(false)
+const isSubmitting = ref(false)
+
 const toast = useToast()
 const router = useRouter()
 
-// Validasi reactive
 const isPasswordTooShort = computed(() => password.value.length > 0 && password.value.length < 6)
 const isPasswordMismatch = computed(
-  () => confirmPassword.value.length > 0 && confirmPassword.value !== password.value,
+  () => confirmPassword.value.length > 0 && confirmPassword.value !== password.value
 )
 const isPasswordMatch = computed(
-  () =>
-    confirmPassword.value.length > 0 &&
-    confirmPassword.value === password.value &&
-    password.value.length >= 6,
+  () => confirmPassword.value === password.value && password.value.length >= 6
+)
+
+const isFormInvalid = computed(() =>
+  isSubmitting.value ||
+  isPasswordTooShort.value ||
+  isPasswordMismatch.value ||
+  !name.value.trim() ||
+  !email.value.trim()
 )
 
 const handleSubmit = async () => {
-  if (isPasswordTooShort.value) {
-    toast.error('Password minimal 6 karakter')
-    return
-  }
-
-  if (isPasswordMismatch.value) {
-    toast.error('Konfirmasi password tidak cocok.')
-    return
-  }
+  if (isFormInvalid.value) return
 
   const payload = {
-    name: name.value,
-    email: email.value,
+    name: name.value.trim(),
+    email: email.value.trim(),
     password: password.value,
     confirm_password: confirmPassword.value,
   }
 
   try {
+    isSubmitting.value = true
     await api.post('/register', payload)
-    toast.success('Registrasi berhasil! 🎉', { timeout: 4000 })
-    setTimeout(() => router.push('/login'), 1000)
+    toast.success('Registrasi berhasil! 🎉')
 
-    // Reset form
     name.value = ''
     email.value = ''
     password.value = ''
     confirmPassword.value = ''
+    showPassword.value = false
+    showConfirmPassword.value = false
+
+    setTimeout(() => {
+      router.push('/login')
+    }, 1000)
   } catch (err) {
-    toast.error(err.response?.data?.message || 'Registrasi gagal.', { timeout: 4000 })
+    const message = err.response?.data?.message || 'Registrasi gagal.'
+    toast.error(message)
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>

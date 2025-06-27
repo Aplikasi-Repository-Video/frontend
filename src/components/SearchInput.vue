@@ -5,11 +5,11 @@
     >
       <input
         v-model="searchQuery"
+        :placeholder="placeholderText"
         @focus="showHistory = true"
         @blur="hideWithDelay"
         @keyup.enter="handleSearch"
         type="text"
-        placeholder="Cari video..."
         class="rounded-full bg-gray-800 text-white w-full outline-none"
       />
       <button @click="handleSearch" class="material-icons text-white z-20 relative">search</button>
@@ -25,7 +25,8 @@
         class="flex justify-between items-center px-4 py-2 hover:bg-gray-700"
       >
         <span
-          @click="selectSuggestion(item)"
+          @click="handleSelectSuggestion(item)"
+
           class="cursor-pointer flex-1 overflow-hidden text-ellipsis whitespace-nowrap"
         >
           {{ item }}
@@ -64,15 +65,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useSearch } from '@/util/useSearch'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { useSearch } from '@/composables/useSearch'
+
+const props = defineProps({
+  searchScope: {
+    type: String,
+    default: 'dashboard',
+  },
+})
+
+const emit = defineEmits(['search'])
 
 const {
   searchQuery,
   searchHistory,
   showHistory,
-  handleSearch,
-  selectSuggestion,
+  addToHistory,
   removeHistoryItem,
   clearHistory,
   hideWithDelay,
@@ -81,6 +90,39 @@ const {
 
 const showAllHistory = ref(false)
 const searchContainer = ref(null)
+
+function handleSearch() {
+  if (!searchQuery.value || !searchQuery.value.trim()) return
+
+  addToHistory(searchQuery.value)
+  emit('search', {
+    query: searchQuery.value,
+    scope: props.searchScope,
+  })
+  showHistory.value = false
+}
+
+function handleSelectSuggestion(item) {
+  searchQuery.value = item          // ← ini untuk menampilkan text yang diklik ke input
+  addToHistory(item)                // ← agar suggestion juga disimpan ulang di atas history
+  emit('search', {
+    query: item,
+    scope: props.searchScope,
+  })
+  showHistory.value = false         // ← menutup dropdown history
+}
+
+const placeholderText = computed(() => {
+  switch (props.searchScope) {
+    case 'history':
+      return 'Cari di histori...'
+    case 'favorite':
+      return 'Cari video favorit...'
+    case 'dashboard':
+    default:
+      return 'Cari video...'
+  }
+})
 
 function onClickOutside(event) {
   if (searchContainer.value && !searchContainer.value.contains(event.target)) {
@@ -98,4 +140,6 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Optional styling */
+</style>

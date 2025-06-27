@@ -13,7 +13,7 @@ export function useSearch() {
     const query = searchQuery.value.trim()
     if (query) {
       addToHistory(query)
-      router.push({ path: '/search', query: { q: query } })
+      router.push({ path: '/search', query: { q: query } }) // ⛔️ HAPUS INI
       showHistory.value = false
     }
   }
@@ -36,7 +36,7 @@ export function useSearch() {
 
   const selectSuggestion = (item) => {
     searchQuery.value = item
-    handleSearch()
+    addToHistory(item)
   }
 
   const removeHistoryItem = (index) => {
@@ -82,5 +82,6 @@ export function useSearch() {
     clearHistory,
     hideWithDelay,
     loadSearchHistory,
+    addToHistory,
   }
 }

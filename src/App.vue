@@ -14,11 +14,14 @@
 </template>
 
 <script setup>
-import Sidebar from '@/components/SideBar.vue'
+import Sidebar from '@/components/layout/SideBar.vue'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+
+const auth = useAuthStore()
+auth.refreshFromToken()
 
 const route = useRoute()
-
 const hideSidebar = computed(() => ['/', '/login', '/register'].includes(route.path))
 </script>

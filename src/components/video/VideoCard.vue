@@ -17,7 +17,7 @@
       <img v-else :src="thumbnail" alt="thumbnail" class="w-full h-full object-cover" />
     </div>
     <div class="p-3">
-      <p class="font-semibold text-sm line-clamp-2">{{ title }}</p>
+      <p class="font-semibold text-sm line-clamp-2 h-10">{{ title }}</p>
       <p class="text-xs text-gray-400">{{ timeAgo(createdAt) }}</p>
     </div>
   </div>

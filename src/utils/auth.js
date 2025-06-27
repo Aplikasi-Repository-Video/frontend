@@ -7,6 +7,7 @@ export function getUserFromToken() {
   try {
     return jwtDecode(token)
   } catch (err) {
-    return err.message
+    console.error('Error decoding token:', err)
+    return null
   }
 }
