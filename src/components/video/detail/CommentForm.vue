@@ -1,18 +1,3 @@
-<script setup>
-import { computed } from 'vue'
-const props = defineProps({
-  isPosting: Boolean,
-  modelValue: String,
-})
-const emit = defineEmits(['update:modelValue', 'post'])
-
-// computed getter-setter untuk v-model
-const inputValue = computed({
-  get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val),
-})
-</script>
-
 <template>
   <div class="mt-6">
     <h3 class="text-white text-lg font-semibold mb-2">Tinggalkan Komentar</h3>
@@ -31,3 +16,17 @@ const inputValue = computed({
     </button>
   </div>
 </template>
+
+<script setup>
+import { computed } from 'vue'
+const props = defineProps({
+  isPosting: Boolean,
+  modelValue: String,
+})
+const emit = defineEmits(['update:modelValue', 'post'])
+
+const inputValue = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
+})
+</script>

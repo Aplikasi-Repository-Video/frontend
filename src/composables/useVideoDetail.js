@@ -1,6 +1,8 @@
 import { ref } from 'vue'
 import axios from '@/services/axios'
 import { getUserFromToken } from '@/utils/auth'
+import Swal from 'sweetalert2'
+
 
 export function useVideoDetail() {
   const video = ref(null)
@@ -39,7 +41,27 @@ export function useVideoDetail() {
 
   async function toggleLike() {
     const user = getUserFromToken()
-    if (!user?.id || !video.value?.id) return
+    if (!user?.id || !video.value?.id) {
+      await Swal.fire({
+        title: 'Login Diperlukan',
+        text: 'Silakan login terlebih dahulu untuk menyukai video ini.',
+        icon: 'info',
+        confirmButtonText: 'Login Sekarang',
+        showCancelButton: true,
+        cancelButtonText: 'Nanti Saja',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700',
+          cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '/login'
+        }
+      })
+
+      return
+    }
 
     const payload = {
       user_id: user.id,
@@ -59,7 +81,24 @@ export function useVideoDetail() {
     const content = commentContent.value.trim()
     const user = getUserFromToken()
     if (!content || !user?.id) {
-      alert('Kamu harus login untuk mengirim komentar.')
+      const result = await Swal.fire({
+        title: 'Login Diperlukan',
+        text: 'Silakan login terlebih dahulu untuk mengirim komentar.',
+        icon: 'info',
+        confirmButtonText: 'Login Sekarang',
+        showCancelButton: true,
+        cancelButtonText: 'Nanti Saja',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: 'bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700',
+          cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
+        },
+      })
+
+      if (result.isConfirmed) {
+        window.location.href = '/login'
+      }
+
       return
     }
 
