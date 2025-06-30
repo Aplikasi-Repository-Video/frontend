@@ -11,6 +11,7 @@ import ManageUserPage from '@/pages/admin/ManageUserPage.vue'
 import ManageCommentPage from '@/pages/admin/ManageCommentPage.vue'
 import UploadVideoPage from '@/pages/admin/UploadVideoPage.vue'
 import EditVideoPage from '@/pages/admin/EditVideoPage.vue'
+import NotFoundPage from '@/pages/NotFoundPage.vue'
 
 export default [
   {
@@ -83,24 +84,34 @@ export default [
     path: '/admin/users',
     name: 'ManageUser',
     component: ManageUserPage,
-    meta: { requiresAuth: true, role: 'ADMIN' }
+    meta: { middleware: ['auth', 'admin'] }
   },
   {
     path: '/admin/comments',
     name: 'ManageComment',
     component: ManageCommentPage,
-    meta: { requiresAuth: true, role: 'ADMIN' }
+    meta: { middleware: ['auth', 'admin'] }
   },
   {
     path: '/admin/upload',
     name: 'UploadVideo',
     component: UploadVideoPage,
-    meta: { requiresAuth: true, role: 'ADMIN' }
+    meta: { middleware: ['auth', 'admin'] }
   },
   {
     path: '/admin/videos/:id/edit',
     name: 'EditVideo',
     component: EditVideoPage,
-    meta: { requiresAuth: true, role: 'ADMIN' }
+    meta: { middleware: ['auth', 'admin'] }
+  },
+  {
+    path: '/not-found',
+    name: 'NotFound',
+    component: NotFoundPage
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFoundPage
   }
 ]

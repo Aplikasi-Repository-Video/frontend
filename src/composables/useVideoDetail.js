@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import axios from '@/services/axios'
 import { getUserFromToken } from '@/utils/auth'
 import Swal from 'sweetalert2'
-
+import { useRouter } from 'vue-router'
 
 export function useVideoDetail() {
   const video = ref(null)
@@ -35,8 +35,15 @@ export function useVideoDetail() {
       likeCount.value = data.Like.length
       liked.value = data.Like.some((like) => like.user_id === user?.id)
     } catch (error) {
-      console.error('❌ Gagal mengambil detail video:', error)
+      if (error.response && error.response.status === 404 || error.response.status === 500) {
+        const router = useRouter()
+
+        router.push('/not-found') // Pastikan halaman ini ada
+      } else {
+        console.error('❌ Gagal mengambil detail video:', error)
+      }
     }
+
   }
 
   async function toggleLike() {
