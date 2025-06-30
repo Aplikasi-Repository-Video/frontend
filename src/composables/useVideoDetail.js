@@ -154,6 +154,7 @@ export function useVideoDetail() {
         await axios.post('/watch-history', payload)
         hasReported = true
         markAsWatched(video.value.id)
+        console.log('Watch history berhasil dikirim.')
       } catch (err) {
         console.error('❌ Gagal kirim watch history:', err)
       }
