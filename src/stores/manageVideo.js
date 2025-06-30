@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from '@/services/axios'
+import Swal from 'sweetalert2'
+import { useToast } from 'vue-toastification'
 
 export const useManageVideoStore = defineStore('manageVideo', {
   state: () => ({
@@ -68,13 +70,37 @@ export const useManageVideoStore = defineStore('manageVideo', {
     },
 
     async deleteVideo(id) {
+      const toast = useToast()
       try {
+        const result = await Swal.fire({
+          title: 'Apakah kamu yakin?',
+          text: 'Video akan dihapus secara permanen',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Ya, hapus',
+          cancelButtonText: 'Batal',
+          customClass: {
+            confirmButton: 'bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700',
+            cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
+          },
+        })
+
+        if (!result.isConfirmed) return
+
+        // ⛔️ Jangan munculkan toast dulu, tunggu penghapusan berhasil
         await axios.delete(`/videos/${id}`)
         this.videoList = this.videoList.filter((v) => v.id !== id)
+
+        // ✅ Baru munculkan toast setelah berhasil
+        toast.success('Video berhasil dihapus', {
+          timeout: 3000,
+        })
       } catch (err) {
         console.error('Gagal menghapus video:', err)
+        toast.error('Gagal menghapus video')
         throw err
       }
     }
+
   }
 })

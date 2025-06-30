@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
 import axios from '@/services/axios'
+import { useToast } from 'vue-toastification'
 
 export const useCommentStore = defineStore('comment', {
   state: () => ({
     allComments: [],
     searchQuery: '',
     page: 1,
-    limit: 15,
+    limit: 10,
     isLoading: false,
     errorMessage: '',
   }),
@@ -68,8 +69,12 @@ export const useCommentStore = defineStore('comment', {
 
     async deleteComment(id) {
       try {
-        await axios.delete(`/comments/${id}`)
+        const res = await axios.delete(`/comments/${id}`)
         this.allComments = this.allComments.filter((c) => c.id !== id)
+        if (res.status === 200) {
+          const toast = useToast()
+          toast.success('Berhasil menghapus komentar')
+        }
       } catch (err) {
         console.error(err)
       }

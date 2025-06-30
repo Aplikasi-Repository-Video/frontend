@@ -15,8 +15,8 @@
         {{ commentStore.errorMessage }}
       </div>
 
-      <div v-else class="flex flex-col min-h-[70vh] justify-between">
-        <div class="overflow-x-auto">
+      <div v-else class="flex flex-col flex-grow min-h-[calc(100vh-150px)] justify-between">
+        <div class="overflow-x-auto flex-1">
           <table class="min-w-full text-sm text-left text-white border border-gray-600">
             <thead class="bg-[#1a1333] text-gray-300">
               <tr>
@@ -30,11 +30,13 @@
             </thead>
             <tbody>
               <tr
-                v-for="comment in commentStore.paginatedComments"
+                v-for="(comment, index) in commentStore.paginatedComments"
                 :key="comment.id"
                 class="border-t border-gray-700 hover:bg-[#2a1f4d]"
-                >
-                <td class="px-4 py-3">{{ comment.id }}</td>
+              >
+                <td class="px-4 py-3">
+                  {{ index + 1 + (commentStore.page - 1) * commentStore.limit }}
+                </td>
                 <td class="px-4 py-3 max-w-sm break-words">{{ comment.content }}</td>
                 <td class="px-4 py-3">{{ comment.user.name }}</td>
                 <td class="px-4 py-3">{{ comment.video.title }}</td>
@@ -52,25 +54,47 @@
           </table>
         </div>
 
-        <div class="mt-6 flex flex-wrap justify-center items-center gap-2 text-white text-sm sm:text-base">
-          <button
-            class="bg-gray-700 px-3 py-1 rounded disabled:opacity-50"
-            :disabled="commentStore.page === 1"
-            @click="commentStore.setPage(commentStore.page - 1)"
-          >
-            Sebelumnya
-          </button>
+        <div class="mt-6 flex justify-center items-center gap-2 text-white text-sm sm:text-base">
+  <!-- First Page -->
+  <button
+    class="bg-gray-700 px-3 py-1 rounded disabled:opacity-50"
+    :disabled="commentStore.page === 1"
+    @click="commentStore.setPage(1)"
+  >
+    ⇤ First
+  </button>
 
-          <span>Halaman {{ commentStore.page }} dari {{ commentStore.totalPages }}</span>
+  <!-- Previous Page -->
+  <button
+    class="bg-gray-700 px-3 py-1 rounded disabled:opacity-50"
+    :disabled="commentStore.page === 1"
+    @click="commentStore.setPage(commentStore.page - 1)"
+  >
+    ← Sebelumnya
+  </button>
 
-          <button
-            class="bg-gray-700 px-3 py-1 rounded disabled:opacity-50"
-            :disabled="commentStore.page === commentStore.totalPages"
-            @click="commentStore.setPage(commentStore.page + 1)"
-          >
-            Selanjutnya
-          </button>
+  <!-- Page Info -->
+  <span>Halaman {{ commentStore.page }} dari {{ commentStore.totalPages }}</span>
+
+  <!-- Next Page -->
+  <button
+    class="bg-gray-700 px-3 py-1 rounded disabled:opacity-50"
+    :disabled="commentStore.page === commentStore.totalPages"
+    @click="commentStore.setPage(commentStore.page + 1)"
+  >
+    Selanjutnya →
+  </button>
+
+  <!-- Last Page -->
+  <button
+    class="bg-gray-700 px-3 py-1 rounded disabled:opacity-50"
+    :disabled="commentStore.page === commentStore.totalPages"
+    @click="commentStore.setPage(commentStore.totalPages)"
+  >
+    Last ⇥
+  </button>
         </div>
+
       </div>
     </main>
   </div>
@@ -80,6 +104,7 @@
 import { onMounted } from 'vue'
 import { useCommentStore } from '@/stores/comment'
 import Topbar from '@/components/layout/TopBar.vue'
+import Swal from 'sweetalert2'
 
 const commentStore = useCommentStore()
 
@@ -93,8 +118,21 @@ function handleSearch({ query, scope }) {
 }
 
 function handleDelete(id) {
-  if (confirm('Yakin ingin menghapus komentar ini?')) {
-    commentStore.deleteComment(id)
-  }
+  Swal.fire({
+    title: 'Apakah Anda yakin ingin menghapus komentar ini?',
+    icon: 'warning',
+    showCancelButton: true,
+    buttonsStyling: false,
+    confirmButtonText: 'Ya, hapus',
+    cancelButtonText: 'Batal',
+    customClass: {
+          confirmButton: 'bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700',
+          cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
+        },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      commentStore.deleteComment(id)
+    }
+  })
 }
 </script>
