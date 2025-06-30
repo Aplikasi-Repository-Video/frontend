@@ -93,10 +93,12 @@
 
 <script setup>
 import axios from '@/services/axios'
+import axiosRaw from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUploadVideoStore } from '@/stores/uploadVideo'
 import { useAuthStore } from '@/stores/auth'
+import { getVideoDuration } from '@/utils/getVideoDuration'
 
 const router = useRouter()
 const uploadStore = useUploadVideoStore()
@@ -144,42 +146,89 @@ async function handleSubmit() {
     return router.push('/login')
   }
 
-  const formData = new FormData()
-  formData.append('title', form.value.title)
-  formData.append('description', form.value.description)
-  formData.append('category_id', form.value.category_id)
-  formData.append('user_id', authStore.user.id)
-  formData.append('video', form.value.video)
-  formData.append('thumbnail', form.value.thumbnail)
-
   isLoading.value = true
   uploadProgress.value = 0
-  isProcessing.value = false
+  isProcessing.value = true
 
   try {
-    await axios.post('/videos', formData, {
-      onUploadProgress(e) {
-        if (e.lengthComputable) {
-          const progress = Math.round((e.loaded / e.total) * 100)
-          uploadProgress.value = progress
+    if (form.value.video.size > 100 * 1024 * 1024) {
+      alert('Ukuran video maksimal 100MB')
+      return
+    }
 
-          if (progress === 100) {
-            isProcessing.value = true  // 💡 aktifkan setelah upload selesai
-          }
-        }
+    const duration = await getVideoDuration(form.value.video)
+    let videoProgress = 0
+    let thumbProgress = 0
+
+    const updateOverallProgress = () => {
+      uploadProgress.value = Math.round((videoProgress + thumbProgress) / 2)
+    }
+
+    const videoUrl = await uploadToCloudinary(
+      form.value.video,
+      'upload_preset_video',
+      'video',
+      'video',
+      (p) => {
+        videoProgress = p
+        updateOverallProgress()
       }
+    )
+
+    const thumbUrl = await uploadToCloudinary(
+      form.value.thumbnail,
+      'upload_preset_thumbnail',
+      'thumbnail',
+      'image',
+      (p) => {
+        thumbProgress = p
+        updateOverallProgress()
+      }
+    )
+
+    const postRes = await axios.post('/videos', {
+      title: form.value.title,
+      description: form.value.description,
+      category_id: form.value.category_id,
+      user_id: authStore.user.id,
+      video_url: videoUrl,
+      thumbnail_url: thumbUrl,
+      duration: duration
     })
+
+    console.log(postRes)
 
     alert('Video berhasil diupload!')
     router.push('/admin/videos')
   } catch (err) {
     console.error(err)
-    alert('Gagal upload: ' + (err.response?.data?.message || err.message))
+    alert('Gagal upload: ' + err.message)
   } finally {
     isLoading.value = false
-    isProcessing.value = false // 💡 matikan saat semuanya selesai
+    isProcessing.value = false
   }
 }
 
+async function uploadToCloudinary(file, preset, folder, type = 'image', onProgress) {
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('upload_preset', preset)
+  formData.append('folder', folder)
+
+  const endpoint = `https://api.cloudinary.com/v1_1/dr2nxslaq/${type}/upload`
+
+  const res = await axiosRaw.post(endpoint, formData, {
+    onUploadProgress(e) {
+      if (e.lengthComputable && onProgress) {
+        const progress = Math.round((e.loaded / e.total) * 100)
+        onProgress(progress)
+      }
+    }
+  })
+
+  if (res.data.secure_url) return res.data.secure_url
+  throw new Error('Upload ke Cloudinary gagal')
+}
 </script>
+
 
