@@ -10,6 +10,7 @@ import ProfilePage from '@/pages/ProfilePage.vue'
 import ManageUserPage from '@/pages/admin/ManageUserPage.vue'
 import ManageCommentPage from '@/pages/admin/ManageCommentPage.vue'
 import UploadVideoPage from '@/pages/admin/UploadVideoPage.vue'
+import EditVideoPage from '@/pages/admin/EditVideoPage.vue'
 
 export default [
   {
@@ -96,4 +97,10 @@ export default [
     component: UploadVideoPage,
     meta: { requiresAuth: true, role: 'ADMIN' }
   },
+  {
+    path: '/admin/videos/:id/edit',
+    name: 'EditVideo',
+    component: EditVideoPage,
+    meta: { requiresAuth: true, role: 'ADMIN' }
+  }
 ]

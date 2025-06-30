@@ -55,10 +55,11 @@
                 <td class="px-4 py-3">
                   <div class="flex gap-2">
                     <button
-                      class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs"
-                    >
-                      Edit
-                    </button>
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs"
+                        @click="goToEdit(video.id)"
+                      >
+                        Edit
+                      </button>
                     <button
                       class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs"
                       @click="deleteVideo(video.id)"
@@ -99,8 +100,13 @@
 import { onMounted } from 'vue'
 import Topbar from '@/components/layout/TopBar.vue'
 import { useManageVideoStore } from '@/stores/manageVideo'
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
+const toast = useToast()
 const store = useManageVideoStore()
+const router = useRouter()
+
 
 onMounted(() => {
   store.fetchMyVideos()
@@ -114,10 +120,18 @@ function handleSearch({ query, scope }) {
 async function deleteVideo(id) {
   if (confirm('Yakin ingin menghapus video ini?')) {
     try {
-      await store.deleteVideo(id)
+      const res = await store.deleteVideo(id)
+      if (res) {
+        toast.success('Video berhasil dihapus')
+      }
+
     } catch (err) {
-      alert('Gagal menghapus video', err)
+      toast.error('Terjadi kesalahan saat menghapus video', err.message)
     }
   }
+}
+
+function goToEdit(id) {
+  router.push(`/admin/videos/${id}/edit`)
 }
 </script>

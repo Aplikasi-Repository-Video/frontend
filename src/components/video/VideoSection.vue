@@ -71,7 +71,7 @@ const visibleVideos = computed(() => {
 })
 
 function handleScroll() {
-  if (props.disableLimit) return // ⛔ Jangan paginasi kalau limit dimatikan
+  if (props.disableLimit) return
 
   const bottomReached = window.innerHeight + window.scrollY >= document.body.offsetHeight - 100
   if (bottomReached && visibleVideos.value.length < props.videos.length) {

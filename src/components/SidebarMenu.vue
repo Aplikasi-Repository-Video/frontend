@@ -26,7 +26,6 @@
     <div>
       <div class="my-2 border-t border-gray-600"></div>
 
-      <!-- Login / Logout button -->
       <button
       @click="handleAuthAction"
       class="relative z-10 flex items-center py-2 rounded-lg w-full text-left transition-all duration-200"
