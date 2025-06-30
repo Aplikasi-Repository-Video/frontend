@@ -10,8 +10,15 @@
       <div v-if="store.isLoading" class="text-white">Memuat data video...</div>
 
       <div v-else>
-        <h1 class="text-2xl text-white font-semibold mb-6">Kelola Video</h1>
-
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-2xl text-white font-semibold">Kelola Video</h1>
+          <RouterLink
+            to="/admin/upload"
+            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm"
+          >
+            + Upload Video
+          </RouterLink>
+        </div>
         <div v-if="store.filteredVideos.length === 0" class="text-white">
           Tidak ada video yang ditemukan.
         </div>

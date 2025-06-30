@@ -9,6 +9,7 @@ import VideoFavoritePage from '@/pages/video/VideoFavoritePage.vue'
 import ProfilePage from '@/pages/ProfilePage.vue'
 import ManageUserPage from '@/pages/admin/ManageUserPage.vue'
 import ManageCommentPage from '@/pages/admin/ManageCommentPage.vue'
+import UploadVideoPage from '@/pages/admin/UploadVideoPage.vue'
 
 export default [
   {
@@ -87,6 +88,12 @@ export default [
     path: '/admin/comments',
     name: 'ManageComment',
     component: ManageCommentPage,
+    meta: { requiresAuth: true, role: 'ADMIN' }
+  },
+  {
+    path: '/admin/upload',
+    name: 'UploadVideo',
+    component: UploadVideoPage,
     meta: { requiresAuth: true, role: 'ADMIN' }
   },
 ]
