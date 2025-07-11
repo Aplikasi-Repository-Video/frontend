@@ -44,15 +44,22 @@ if (token) {
 
 // Menu Sidebar
 const allMenus = [
-  { name: 'Watch', icon: 'tv', path: '/videos' },
-  { name: 'History', icon: 'history', path: '/history' },
-  { name: 'Favorite', icon: 'favorite', path: '/favorite' },
-  { name: 'Manage', icon: 'dashboard', path: '/admin/videos', role: 'ADMIN' },
+  { name: 'Watch', icon: 'tv', path: '/videos', role: 'USER' },
+  { name: 'History', icon: 'history', path: '/history', role: 'USER' },
+  { name: 'Favorite', icon: 'favorite', path: '/favorite', role: 'USER' },
+  { name: 'Dashboard', icon: 'dashboard', path: '/admin/dashboard', role: 'ADMIN' },
+  { name: 'Video', icon: 'tv', path: '/admin/videos', role: 'ADMIN' },
   { name: 'User', icon: 'person', path: '/admin/users', role: 'ADMIN' },
   { name: 'Comment', icon: 'comment', path: '/admin/comments', role: 'ADMIN' },
 ]
 
-const menus = allMenus.filter((menu) => !menu.role || menu.role === role)
+const menus = allMenus.filter((menu) => {
+  if (role === 'ADMIN') {
+    return menu.role === 'ADMIN'
+  } else {
+    return !menu.role || menu.role === 'USER'
+  }
+})
 
 const logoutMenu = { name: 'Logout', icon: 'logout', path: '/videos' }
 

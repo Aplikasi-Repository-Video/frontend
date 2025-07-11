@@ -12,6 +12,7 @@ import ManageCommentPage from '@/pages/admin/ManageCommentPage.vue'
 import UploadVideoPage from '@/pages/admin/UploadVideoPage.vue'
 import EditVideoPage from '@/pages/admin/EditVideoPage.vue'
 import NotFoundPage from '@/pages/NotFoundPage.vue'
+import AdminDashboard from '@/pages/admin/AdminDashboard.vue'
 
 export default [
   {
@@ -102,6 +103,12 @@ export default [
     path: '/admin/videos/:id/edit',
     name: 'EditVideo',
     component: EditVideoPage,
+    meta: { middleware: ['auth', 'admin'] }
+  },
+  {
+    path: '/admin/dashboard',
+    name: 'AdminDashboard',
+    component: AdminDashboard,
     meta: { middleware: ['auth', 'admin'] }
   },
   {
