@@ -14,13 +14,23 @@ export const useUserStore = defineStore('user', {
 
   getters: {
     filteredUsers(state) {
-      if (!state.searchQuery) return state.userList
+      if (!state.searchQuery) {
+        return state.userList.slice().sort((a, b) =>
+          new Date(b.updated) - new Date(a.updated)
+        )
+      }
+
       const q = state.searchQuery.toLowerCase()
-      return state.userList.filter((u) =>
+      const filtered = state.userList.filter((u) =>
         u.email.toLowerCase().includes(q) ||
         u.name?.toLowerCase().includes(q)
       )
-    },
+
+      return filtered.sort((a, b) =>
+        new Date(b.updated) - new Date(a.updated)
+      )
+    }
+    ,
 
     paginatedUsers(state) {
       const start = (state.page - 1) * state.limit
@@ -89,6 +99,7 @@ export const useUserStore = defineStore('user', {
         const res = await axios.put(`/users/${id}`, updatedData)
         const idx = this.userList.findIndex((u) => u.id === id)
         if (idx !== -1) this.userList[idx] = res.data.data
+        return res.data.success
       } catch (err) {
         console.error('Gagal update user:', err)
         throw err

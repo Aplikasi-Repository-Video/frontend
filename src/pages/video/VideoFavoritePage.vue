@@ -2,7 +2,7 @@
   <div class="flex h-screen overflow-hidden">
     <main
       ref="scrollRef"
-      class="flex-1 bg-[#0f0b1d] overflow-y-auto no-scrollbar px-6 pb-6"
+      class="flex-1 bg-primary overflow-y-auto no-scrollbar px-6 pb-6"
       @scroll.passive="handleScroll"
     >
       <Topbar
@@ -11,7 +11,7 @@
         @search="handleSearch"
       />
 
-      <div v-if="favoriteStore.isLoading && favoriteStore.favoriteList.length === 0" class="text-white">
+      <div v-if="favoriteStore.isLoading && favoriteStore.favoriteList.length === 0" class="text-primary">
         Loading video...
       </div>
 
@@ -20,7 +20,7 @@
           {{ favoriteStore.errorMessage }}
         </div>
 
-        <div v-if="favoriteStore.favoriteList.length === 0" class="text-white">
+        <div v-if="favoriteStore.favoriteList.length === 0" class="text-primary">
           Tidak ada video ditemukan.
         </div>
 
@@ -31,7 +31,7 @@
           :isFavorite="true"
         />
 
-        <div v-if="favoriteStore.isLoading && favoriteStore.favoriteList.length > 0" class="text-center text-white mt-4">
+        <div v-if="favoriteStore.isLoading && favoriteStore.favoriteList.length > 0" class="text-center text-primary mt-4">
           Memuat lebih banyak...
         </div>
       </div>

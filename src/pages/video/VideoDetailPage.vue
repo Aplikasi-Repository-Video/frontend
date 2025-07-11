@@ -1,9 +1,9 @@
 <template>
-  <div class="flex h-screen overflow-hidden bg-[#121212]">
-    <main class="flex-1 bg-[#0f0b1d] overflow-y-auto px-6 pb-10">
+  <div class="flex h-screen overflow-hidden bg-primary text-primary">
+    <main class="flex-1 bg-primary overflow-y-auto px-6 pb-10">
       <Topbar :showCategory="false" :searchScope="'dashboard'" @search="handleSearch" />
 
-      <div v-if="!video" class="text-white">Loading video...</div>
+      <div v-if="!video" class="text-primary">Loading video...</div>
 
       <div v-else class="max-w-4xl mx-auto space-y-6">
         <VideoPlayer :video="video" ref="videoPlayerRef" @loaded="onLoadedMetadata" />
@@ -20,7 +20,7 @@
           :isPosting="isPosting"
           @post="postComment"
         />
-        <h6 class="text-white text-lg font-semibold mb-2">Komentar</h6>
+        <h6 class="text-primary text-lg font-semibold mb-2">Komentar</h6>
         <VideoComments :comments="video.comments" />
       </div>
     </main>

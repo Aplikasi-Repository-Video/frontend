@@ -2,7 +2,7 @@
   <div class="flex items-center mb-6 gap-4">
     <button
       @click="toggleSidebar"
-      :class="['text-white hover:text-purple-300', { 'ml-2': isOpen }]"
+      :class="['text-primary hover:text-purple-300', { 'ml-2': isOpen }]"
     >
       <span class="material-icons text-3xl">
         {{ isOpen ? 'close' : 'menu' }}

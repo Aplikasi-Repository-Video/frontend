@@ -1,7 +1,7 @@
 <template>
   <aside
     :class="[
-      'fixed top-0 left-0 h-screen bg-[#0f0b1d] text-white p-4 transition-all duration-300 z-50',
+      'fixed top-0 left-0 h-screen bg-primary text-primary p-4 transition-all duration-300 z-50',
       isOpen ? 'w-64' : 'w-16',
     ]"
     style="box-sizing: border-box"
@@ -42,7 +42,6 @@ if (token) {
   }
 }
 
-// Menu Sidebar
 const allMenus = [
   { name: 'Watch', icon: 'tv', path: '/videos', role: 'USER' },
   { name: 'History', icon: 'history', path: '/history', role: 'USER' },
@@ -63,7 +62,6 @@ const menus = allMenus.filter((menu) => {
 
 const logoutMenu = { name: 'Logout', icon: 'logout', path: '/videos' }
 
-// Mapping prefix untuk aktif menu
 const routePrefixes = {
   '/videos': ['/videos', '/search'],
   '/history': ['/history'],
@@ -74,13 +72,11 @@ const routePrefixes = {
   '/admin/comments': ['/admin/comments'],
 }
 
-// Fungsi untuk cek apakah route sekarang cocok dengan prefix
 const isActive = (path) => {
   const prefixes = routePrefixes[path]
   return prefixes ? prefixes.some((prefix) => route.path.startsWith(prefix)) : route.path === path
 }
 
-// Tutup sidebar jika berpindah route
 watch(
   () => route.path,
   () => {

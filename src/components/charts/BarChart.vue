@@ -27,19 +27,19 @@ const chartOptions = {
     y: {
       beginAtZero: true,
       ticks: {
-        color: 'white',
+        color: 'gray',
       },
     },
     x: {
       ticks: {
-        color: 'white',
+        color: 'gray',
       },
     },
   },
   plugins: {
     legend: {
       labels: {
-        color: 'white',
+        color: 'gray',
       },
     },
   },

@@ -6,7 +6,9 @@ import router from './router'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 import { createPinia } from 'pinia'
-
+import { useTheme } from './composables/useTheme'
+const { initTheme } = useTheme()
+initTheme()
 const pinia = createPinia()
 
 createApp(App)

@@ -6,8 +6,8 @@
         alt="Preview"
         class="w-full h-full object-cover object-[30%_100%]"
       />
-      <div class="absolute inset-0 bg-black opacity-30"></div>
-      <div class="absolute bottom-10 left-10 text-white max-w-sm">
+      <div class="absolute inset-0 bg-primary opacity-30"></div>
+      <div class="absolute bottom-10 left-10 text-primary max-w-sm">
         <p class="font-bold">"Belajar Jadi Lebih Mudah."</p>
         <p class="text-sm mb-3 leading-relaxed">
           Temukan materi edukatif dari pemula hingga mahir, semua dalam satu platform.
@@ -21,7 +21,7 @@
     >
       <div class="w-full max-w-md">
         <p class="text-sm text-cyan-400 font-semibold text-center mb-1">Gabung Sekarang</p>
-        <h1 class="text-3xl font-bold text-white text-center mb-6">Lihat Koleksi Video</h1>
+        <h1 class="text-3xl font-bold text-primary text-center mb-6">Lihat Koleksi Video</h1>
 
         <form @submit.prevent="handleSubmit" class="bg-white p-6 rounded-2xl shadow-2xl space-y-4">
           <!-- Nama -->
@@ -62,7 +62,7 @@
             <button
               type="button"
               @click="showPassword = !showPassword"
-              class="absolute right-4 top-[35px] text-gray-500 hover:text-gray-700"
+              class="absolute right-4 top-[35px] text-muted hover:text-gray-700"
             >
               <component :is="showPassword ? EyeOff : Eye" class="w-5 h-5" />
             </button>
@@ -87,7 +87,7 @@
             <button
               type="button"
               @click="showConfirmPassword = !showConfirmPassword"
-              class="absolute right-4 top-[35px] text-gray-500 hover:text-gray-700"
+              class="absolute right-4 top-[35px] text-muted hover:text-gray-700"
             >
               <component :is="showConfirmPassword ? EyeOff : Eye" class="w-5 h-5" />
             </button>
@@ -99,7 +99,7 @@
           <button
             type="submit"
             :disabled="isFormInvalid"
-            class="w-full py-2 rounded-full bg-indigo-600 text-white font-semibold transition"
+            class="w-full py-2 rounded-full bg-indigo-600 text-primary font-semibold transition"
             :class="{
               'opacity-60 cursor-not-allowed': isFormInvalid,
               'hover:bg-indigo-700': !isFormInvalid
@@ -108,7 +108,7 @@
             {{ isSubmitting ? 'Mendaftarkan...' : 'Lanjutkan' }}
           </button>
 
-          <p class="text-sm text-gray-500 text-center">
+          <p class="text-sm text-muted text-center">
             Sudah punya akun?
             <a href="/login" class="text-indigo-600 font-semibold">Masuk</a>
           </p>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="block w-64 bg-[#1b172b] rounded-xl overflow-hidden shadow-md text-white hover:scale-105 transition cursor-pointer"
+    class="block w-64 bg-primary rounded-xl overflow-hidden shadow-md text-primary hover:scale-105 transition cursor-pointer"
     @mouseenter="startHover"
     @mouseleave="endHover"
   >
@@ -18,7 +18,7 @@
     </div>
     <div class="p-3">
       <p class="font-semibold text-sm line-clamp-2 h-10">{{ title }}</p>
-      <p class="text-xs text-gray-400">{{ timeAgo(createdAt) }}</p>
+      <p class="text-xs text-muted">{{ timeAgo(createdAt) }}</p>
     </div>
   </div>
 </template>

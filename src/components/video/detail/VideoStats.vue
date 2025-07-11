@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center space-x-6 text-white text-sm">
+  <div class="flex items-center space-x-6 text-primary text-sm">
     <div
       class="flex items-center space-x-1 cursor-pointer select-none hover:text-blue-400"
       @click="$emit('toggle-like')"

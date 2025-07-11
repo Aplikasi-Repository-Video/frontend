@@ -1,7 +1,7 @@
 <template>
   <div class="relative w-full" ref="searchContainer">
     <div
-      class="flex items-center gap-4 bg-gray-800 rounded-full px-4 py-2 border border-transparent focus-within:border-white transition-colors"
+      class="flex items-center gap-4 bg-passive rounded-full px-4 py-2 border border-transparent focus-within:border-white transition-colors"
     >
       <input
         v-model="searchQuery"
@@ -10,19 +10,19 @@
         @blur="hideWithDelay"
         @keyup.enter="handleSearch"
         type="text"
-        class="rounded-full bg-gray-800 text-white w-full outline-none"
+        class="rounded-full bg-passive text-primary w-full outline-none"
       />
-      <button @click="handleSearch" class="material-icons text-white z-20 relative">search</button>
+      <button @click="handleSearch" class="material-icons text-primary z-20 relative">search</button>
     </div>
 
     <ul
       v-if="showHistory && searchHistory.length && !searchQuery"
-      class="absolute top-full mt-2 w-full bg-gray-900 text-white rounded shadow z-10"
+      class="absolute top-full mt-2 w-full bg-passive text-primary rounded shadow z-10"
     >
       <li
         v-for="(item, index) in showAllHistory ? searchHistory : searchHistory.slice(0, 3)"
         :key="item"
-        class="flex justify-between items-center px-4 py-2 hover:bg-gray-700"
+        class="flex justify-between items-center px-4 py-2 hover:bg-muted"
       >
         <span
           @click="handleSelectSuggestion(item)"
@@ -33,7 +33,7 @@
         </span>
         <button
           @mousedown.stop.prevent="removeHistoryItem(index)"
-          class="text-gray-500 hover:text-red-500"
+          class="text-muted hover:text-red-500"
         >
           &times;
         </button>
@@ -57,7 +57,7 @@
 
     <p
       v-else-if="showHistory && !searchHistory.length && !searchQuery"
-      class="absolute top-full mt-2 w-full text-center text-gray-500"
+      class="absolute top-full mt-2 w-full text-center text-muted"
     >
       Tidak ada pencarian sebelumnya
     </p>

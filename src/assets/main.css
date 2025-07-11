@@ -2,26 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Scrollbar Global untuk seluruh body */
-body::-webkit-scrollbar {
-  width: 8px;
-}
+@layer components {
+  .bg-primary {
+    @apply bg-white dark:bg-[#0f0b1d];
+  }
 
-body::-webkit-scrollbar-track {
-  background: #1e1e2f;
-}
+  .bg-secondary {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
 
-body::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 6px;
-}
+  .bg-passive {
+    @apply bg-gray-200 dark:bg-gray-700;
+  }
 
-body::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+  .text-primary {
+    @apply text-gray-900 dark:text-white;
+  }
 
-/* Firefox support */
-body {
-  scrollbar-width: thin;
-  scrollbar-color: #888 #1e1e2f;
+  .text-secondary {
+    @apply text-gray-600 dark:text-gray-300;
+  }
+
+  .border-primary {
+    @apply border-gray-200 dark:border-gray-700;
+  }
 }

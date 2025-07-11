@@ -1,9 +1,9 @@
 <template>
   <div
-    class="bg-[url('../assets/background.png')] bg-cover bg-center min-h-screen text-white flex flex-col items-center justify-center p-6"
+    class="bg-[url('../assets/background.png')] bg-cover bg-center min-h-screen text-secondary flex flex-col items-center justify-center p-6"
   >
     <div class="absolute top-0 left-0 w-full flex justify-between items-center px-10 py-6">
-      <div class="flex items-center space-x-2 text-2xl font-bold text-white">
+      <div class="flex items-center space-x-2 text-2xl font-bold text-secondary">
         <img src="../assets/logo.png" alt="Logo" class="w-10 h-10" />
         <span class="logo-font">EduVid</span>
       </div>
@@ -20,12 +20,12 @@
         Dapatkan Inspirasi Lebih <br />
         Belajar dari Video Edukasi Terbaik
       </h1>
-      <p class="mt-4 text-gray-300 max-w-md mx-auto text-sm">
+      <p class="mt-4 text-secondary max-w-md mx-auto text-sm">
         Semua yang kamu butuhkan untuk memperluas pengetahuan dan belajar dari mana saja, kapan
         saja.
       </p>
       <button
-        class="mt-6 px-6 py-3 bg-indigo-500 hover:bg-indigo-600 rounded-full text-white font-semibold"
+        class="mt-6 px-6 py-3 bg-indigo-500 hover:bg-indigo-600 rounded-full text-secondary font-semibold"
       >
         <a href="/videos">Mulai Sekarang</a>
       </button>

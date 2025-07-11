@@ -1,15 +1,15 @@
 <template>
   <div class="flex h-screen overflow-hidden">
-    <main class="flex-1 bg-[#0f0b1d] overflow-y-auto px-6 pb-6">
+    <main class="flex-1 bg-primary overflow-y-auto px-6 pb-6">
       <Topbar
         :showCategory="false"
         :searchScope="'manage-comment'"
         @search="handleSearch"
       />
 
-      <h1 class="text-2xl text-white font-semibold mb-6">Kelola Komentar</h1>
+      <h1 class="text-2xl text-primary font-semibold mb-6">Kelola Komentar</h1>
 
-      <div v-if="commentStore.isLoading" class="text-white">Memuat komentar...</div>
+      <div v-if="commentStore.isLoading" class="text-primary">Memuat komentar...</div>
 
       <div v-else-if="commentStore.errorMessage" class="text-red-500">
         {{ commentStore.errorMessage }}
@@ -17,8 +17,8 @@
 
       <div v-else class="flex flex-col flex-grow min-h-[calc(100vh-150px)] justify-between">
         <div class="overflow-x-auto flex-1">
-          <table class="min-w-full text-sm text-left text-white border border-gray-600">
-            <thead class="bg-[#1a1333] text-gray-300">
+          <table class="min-w-full text-sm text-left text-primary border border-secondary">
+            <thead class="bg-passive text-secondary">
               <tr>
                 <th class="px-4 py-3 border-b">No</th>
                 <th class="px-4 py-3 border-b">Komentar</th>
@@ -32,7 +32,7 @@
               <tr
                 v-for="(comment, index) in commentStore.paginatedComments"
                 :key="comment.id"
-                class="border-t border-gray-700 hover:bg-[#2a1f4d]"
+                class="border-t border-primary hover:bg-passive"
               >
                 <td class="px-4 py-3">
                   {{ index + 1 + (commentStore.page - 1) * commentStore.limit }}
@@ -43,7 +43,7 @@
                 <td class="px-4 py-3">{{ new Date(comment.createdAt).toLocaleString() }}</td>
                 <td class="px-4 py-3">
                   <button
-                    class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs"
+                    class="bg-red-600 hover:bg-red-700 text-primary px-3 py-1 rounded text-xs"
                     @click="handleDelete(comment.id)"
                   >
                     Hapus
@@ -54,10 +54,10 @@
           </table>
         </div>
 
-        <div class="mt-6 flex justify-center items-center gap-2 text-white text-sm sm:text-base">
+        <div class="mt-6 flex justify-center items-center gap-2 text-primary text-sm sm:text-base">
   <!-- First Page -->
   <button
-    class="bg-gray-700 px-3 py-1 rounded disabled:opacity-50"
+    class="bg-muted px-3 py-1 rounded disabled:opacity-50"
     :disabled="commentStore.page === 1"
     @click="commentStore.setPage(1)"
   >
@@ -66,7 +66,7 @@
 
   <!-- Previous Page -->
   <button
-    class="bg-gray-700 px-3 py-1 rounded disabled:opacity-50"
+    class="bg-muted px-3 py-1 rounded disabled:opacity-50"
     :disabled="commentStore.page === 1"
     @click="commentStore.setPage(commentStore.page - 1)"
   >
@@ -78,7 +78,7 @@
 
   <!-- Next Page -->
   <button
-    class="bg-gray-700 px-3 py-1 rounded disabled:opacity-50"
+    class="bg-muted px-3 py-1 rounded disabled:opacity-50"
     :disabled="commentStore.page === commentStore.totalPages"
     @click="commentStore.setPage(commentStore.page + 1)"
   >
@@ -87,7 +87,7 @@
 
   <!-- Last Page -->
   <button
-    class="bg-gray-700 px-3 py-1 rounded disabled:opacity-50"
+    class="bg-muted px-3 py-1 rounded disabled:opacity-50"
     :disabled="commentStore.page === commentStore.totalPages"
     @click="commentStore.setPage(commentStore.totalPages)"
   >
@@ -105,6 +105,9 @@ import { onMounted } from 'vue'
 import { useCommentStore } from '@/stores/comment'
 import Topbar from '@/components/layout/TopBar.vue'
 import Swal from 'sweetalert2'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 const commentStore = useCommentStore()
 
@@ -126,12 +129,17 @@ function handleDelete(id) {
     confirmButtonText: 'Ya, hapus',
     cancelButtonText: 'Batal',
     customClass: {
-          confirmButton: 'bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700',
+          confirmButton: 'bg-blue-600 text-primary px-4 py-2 rounded hover:bg-blue-700',
           cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
         },
   }).then((result) => {
     if (result.isConfirmed) {
-      commentStore.deleteComment(id)
+      const res = commentStore.deleteComment(id)
+      if (res) {
+        toast.success('Komentar berhasil dihapus')
+      }else {
+        toast.error('Gagal menghapus komentar')
+      }
     }
   })
 }

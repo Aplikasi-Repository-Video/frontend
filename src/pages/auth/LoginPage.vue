@@ -6,8 +6,8 @@
         alt="Preview"
         class="w-full h-full object-cover object-[30%_100%]"
       />
-      <div class="absolute inset-0 bg-black opacity-30"></div>
-      <div class="absolute bottom-10 left-10 text-white max-w-sm">
+      <div class="absolute inset-0 bg-primary opacity-30"></div>
+      <div class="absolute bottom-10 left-10 text-primary max-w-sm">
         <p class="font-bold">"Belajar Jadi Lebih Mudah."</p>
         <p class="text-sm mb-3 leading-relaxed">
           Temukan materi edukatif dari pemula hingga mahir, semua dalam satu platform.
@@ -21,7 +21,7 @@
     >
       <div class="w-full max-w-md">
         <p class="text-sm text-cyan-400 font-semibold text-center mb-1">Mulai Harimu</p>
-        <h1 class="text-3xl font-bold text-white text-center mb-6">Nonton Video Baru</h1>
+        <h1 class="text-3xl font-bold text-primary text-center mb-6">Nonton Video Baru</h1>
 
         <form @submit.prevent="handleLogin" class="bg-white p-6 rounded-2xl shadow-2xl space-y-4">
           <div>
@@ -49,7 +49,7 @@
             <button
               type="button"
               @click="showPassword = !showPassword"
-              class="absolute right-6 top-[35px] text-gray-500 hover:text-gray-700"
+              class="absolute right-6 top-[35px] text-muted hover:text-gray-700"
             >
               <component
                 :is="showPassword ? EyeOff : Eye"
@@ -61,7 +61,7 @@
 
           <button
             type="submit"
-            class="w-full py-2 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
+            class="w-full py-2 rounded-full bg-indigo-600 text-primary font-semibold hover:bg-indigo-700 transition"
           >
             Lanjutkan
           </button>

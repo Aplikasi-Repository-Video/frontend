@@ -1,6 +1,6 @@
 <template>
   <div class="mb-6">
-    <h2 class="text-white font-bold mb-2">{{ title }}</h2>
+    <h2 class="text-primary font-bold mb-2">{{ title }}</h2>
 
     <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <router-link
@@ -31,7 +31,7 @@
       </router-link>
     </div>
 
-    <div v-if="isLoadingMore" class="text-center text-white mt-4">Memuat lebih banyak...</div>
+    <div v-if="isLoadingMore" class="text-center text-primary mt-4">Memuat lebih banyak...</div>
   </div>
 </template>
 

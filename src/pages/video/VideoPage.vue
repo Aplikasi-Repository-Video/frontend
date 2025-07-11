@@ -2,7 +2,7 @@
   <div class="flex h-screen overflow-hidden">
 <main
   ref="scrollAreaRef"
-  class="flex-1 bg-[#0f0b1d] overflow-y-auto no-scrollbar px-6 pb-6"
+  class="flex-1 bg-primary overflow-y-auto no-scrollbar px-6 pb-6"
   @scroll.passive="handleScroll"
 >      <Topbar
         :showCategory="true"
@@ -11,7 +11,7 @@
         @categorySelected="handleCategorySelected"
       />
 
-      <div v-if="videoStore.isLoading && videoStore.videoList.length === 0" class="text-white">
+      <div v-if="videoStore.isLoading && videoStore.videoList.length === 0" class="text-primary">
         Loading video...
       </div>
 
@@ -26,7 +26,7 @@
             :videos="videoStore.videoList"
           />
 
-          <div v-if="videoStore.isLoading" class="text-white text-center mt-2">Loading...</div>
+          <div v-if="videoStore.isLoading" class="text-primary text-center mt-2">Loading...</div>
         </template>
 
         <template v-else>

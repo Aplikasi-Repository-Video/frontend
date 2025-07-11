@@ -9,11 +9,11 @@
         isOpen ? 'flex-row gap-2 px-4 justify-start' : 'flex-col justify-center text-xs',
         isOpen
           ? isActive(item.path)
-            ? 'bg-[#5D4B9C] text-white'
-            : 'hover:bg-[#3f365e]'
+            ? 'bg-passive text-primary'
+            : 'hover:bg-secondary'
           : isActive(item.path)
             ? 'text-purple-400'
-            : 'text-white hover:text-purple-300',
+            : 'text-primary hover:text-purple-300',
       ]"
     >
       <span class="material-icons" :class="[isOpen ? 'text-xl' : 'text-2xl']">
@@ -24,7 +24,7 @@
     </button>
 
     <div>
-      <div class="my-2 border-t border-gray-600"></div>
+      <div class="my-2 border-t border-secondary"></div>
 
       <button
       @click="handleAuthAction"
@@ -70,7 +70,7 @@ const confirmLogout = async () => {
     cancelButtonText: 'Batal',
     buttonsStyling: false,
     customClass: {
-      confirmButton: 'bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700',
+      confirmButton: 'bg-red-600 text-primary px-4 py-2 rounded hover:bg-red-700',
       cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
     },
   })
@@ -91,7 +91,7 @@ const handleLoginClick = async () => {
     cancelButtonText: 'Cancel',
     buttonsStyling: false,
     customClass: {
-      confirmButton: 'bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700',
+      confirmButton: 'bg-blue-600 text-primary px-4 py-2 rounded hover:bg-blue-700',
       cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
     },
   })
@@ -122,7 +122,7 @@ const handleMenuClick = async (path) => {
       cancelButtonText: 'Cancel',
       buttonsStyling: false,
       customClass: {
-        confirmButton: 'bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700',
+        confirmButton: 'bg-blue-600 text-primary px-4 py-2 rounded hover:bg-blue-700',
         cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
       },
     })

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="text-3xl font-semibold text-white">{{ video?.title }}</h1>
-    <p class="text-sm text-gray-500 mt-1">{{ timeAgo(video?.createdAt) }}</p>
+    <h1 class="text-3xl font-semibold text-primary">{{ video?.title }}</h1>
+    <p class="text-sm text-muted mt-1">{{ timeAgo(video?.createdAt) }}</p>
   </div>
 </template>
 

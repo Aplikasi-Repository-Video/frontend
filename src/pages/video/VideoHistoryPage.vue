@@ -2,7 +2,7 @@
   <div class="flex h-screen overflow-hidden">
     <main
       ref="scrollRef"
-      class="flex-1 bg-[#0f0b1d] overflow-y-auto no-scrollbar px-6 pb-6"
+      class="flex-1 bg-primary overflow-y-auto no-scrollbar px-6 pb-6"
       @scroll.passive="handleScroll"
     >
       <Topbar
@@ -11,7 +11,7 @@
         @search="handleSearch"
       />
 
-      <div v-if="historyStore.isLoading && historyStore.videoList.length === 0" class="text-white">
+      <div v-if="historyStore.isLoading && historyStore.videoList.length === 0" class="text-primary">
         Loading video...
       </div>
 
@@ -24,11 +24,11 @@
           :isHistory="true"
         />
 
-        <div v-if="historyStore.isLoading && historyStore.videoList.length > 0" class="text-center text-white mt-4">
+        <div v-if="historyStore.isLoading && historyStore.videoList.length > 0" class="text-center text-primary mt-4">
           Memuat lebih banyak...
         </div>
 
-        <p v-else-if="historyStore.videoList.length === 0" class="text-white text-lg mt-4">
+        <p v-else-if="historyStore.videoList.length === 0" class="text-primary text-lg mt-4">
           Belum ada video yang ditonton.
         </p>
       </div>
