@@ -68,6 +68,7 @@ const routePrefixes = {
   '/videos': ['/videos', '/search'],
   '/history': ['/history'],
   '/favorite': ['/favorite'],
+  '/admin/dashboard': ['/admin/dashboard'],
   '/admin/videos': ['/admin/videos'],
   '/admin/users': ['/admin/users'],
   '/admin/comments': ['/admin/comments'],

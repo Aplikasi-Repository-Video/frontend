@@ -15,12 +15,13 @@
           :commentCount="video.commentCount"
           @toggle-like="toggleLike"
         />
-        <VideoComments :comments="video.comments" />
         <CommentForm
           v-model="commentContent"
           :isPosting="isPosting"
           @post="postComment"
         />
+        <h6 class="text-white text-lg font-semibold mb-2">Komentar</h6>
+        <VideoComments :comments="video.comments" />
       </div>
     </main>
   </div>
