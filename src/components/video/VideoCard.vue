@@ -1,6 +1,6 @@
 <template>
   <div
-    class="block w-64 bg-primary rounded-xl overflow-hidden shadow-md text-primary hover:scale-105 transition cursor-pointer"
+    class="block w-64 bg-primary rounded-xl overflow-hidden shadow-md text-primary hover:scale-105 transition cursor-pointer border border-white/10"
     @mouseenter="startHover"
     @mouseleave="endHover"
   >

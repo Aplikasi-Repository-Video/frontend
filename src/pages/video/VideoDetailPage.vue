@@ -46,11 +46,17 @@ const {
   toggleLike,
   postComment,
   reportWatchHistory,
+  setupWatchHistoryReporting,
+  setupVisibilityBasedReporting,
+  resetReporting
 } = useVideoDetail()
 
 const route = useRoute()
 const router = useRouter()
 const videoPlayerRef = ref(null)
+
+let cleanupWatchReporting = null
+let visibilityObserver = null
 
 function handleSearch({ query }) {
   if (!query?.trim()) return
@@ -70,26 +76,108 @@ function onLoadedMetadata() {
   }
 }
 
+function setupReporting(player) {
+  if (!player) return
+
+  if (cleanupWatchReporting) {
+    cleanupWatchReporting()
+  }
+  if (visibilityObserver) {
+    visibilityObserver.disconnect()
+  }
+
+  cleanupWatchReporting = setupWatchHistoryReporting(player)
+
+  const visibilitySetup = setupVisibilityBasedReporting(player)
+  if (visibilitySetup) {
+    visibilityObserver = visibilitySetup.observer
+  }
+
+  player.addEventListener('pause', () => {
+    console.log('Video paused, reporting watch history...')
+    reportWatchHistory(player)
+  })
+
+  player.addEventListener('ended', () => {
+    console.log('Video ended, reporting watch history...')
+    reportWatchHistory(player)
+  })
+
+  player.addEventListener('seeked', () => {
+    console.log('Video seeked, reporting watch history...')
+    reportWatchHistory(player)
+  })
+}
+
 onMounted(() => {
   if (route.params.id) {
     fetchVideo(route.params.id)
   }
 
+  resetReporting()
+
   watch(
     () => videoPlayerRef.value,
     (playerComponent) => {
-      const player = playerComponent?.$el?.querySelector('video')
-      if (player) {
-        player.addEventListener('pause', () => reportWatchHistory(player))
-        player.addEventListener('ended', () => reportWatchHistory(player))
+      if (playerComponent) {
+        setTimeout(() => {
+          const player = playerComponent?.$el?.querySelector('video')
+          if (player) {
+            console.log('Video player ready, setting up watch history reporting...')
+            setupReporting(player)
+          }
+        }, 100)
       }
     },
-    { immediate: true },
+    { immediate: true }
+  )
+
+  watch(
+    () => video.value?.id,
+    (newId, oldId) => {
+      if (newId && newId !== oldId) {
+        console.log('Video changed, resetting watch history reporting...')
+        resetReporting()
+        const player = videoPlayerRef.value?.$el?.querySelector('video')
+        if (player) {
+          setupReporting(player)
+        }
+      }
+    }
   )
 })
 
 onBeforeUnmount(() => {
+  console.log('Component unmounting, final watch history report...')
+
   const player = videoPlayerRef.value?.$el?.querySelector('video')
-  if (player) reportWatchHistory(player)
+  if (player) {
+    reportWatchHistory(player)
+  }
+
+  if (cleanupWatchReporting) {
+    cleanupWatchReporting()
+  }
+  if (visibilityObserver) {
+    visibilityObserver.disconnect()
+  }
+})
+
+onMounted(() => {
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === 'hidden') {
+      console.log('Page hidden, reporting watch history...')
+      const player = videoPlayerRef.value?.$el?.querySelector('video')
+      if (player) {
+        reportWatchHistory(player)
+      }
+    }
+  }
+
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+
+  onBeforeUnmount(() => {
+    document.removeEventListener('visibilitychange', handleVisibilityChange)
+  })
 })
 </script>
