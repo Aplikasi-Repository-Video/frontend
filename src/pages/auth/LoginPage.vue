@@ -51,13 +51,9 @@
               @click="showPassword = !showPassword"
               class="absolute right-6 top-[35px] text-muted hover:text-gray-700"
             >
-              <component
-                :is="showPassword ? EyeOff : Eye"
-                class="w-5 h-5"
-              />
+              <component :is="showPassword ? EyeOff : Eye" class="w-5 h-5" />
             </button>
           </div>
-
 
           <button
             type="submit"
@@ -84,7 +80,6 @@ import { jwtDecode } from 'jwt-decode'
 import { useToast } from 'vue-toastification'
 import { useAuthStore } from '@/stores/auth'
 import { Eye, EyeOff } from 'lucide-vue-next'
-
 
 const email = ref('')
 const password = ref('')
@@ -124,4 +119,3 @@ const handleLogin = async () => {
   }
 }
 </script>
-

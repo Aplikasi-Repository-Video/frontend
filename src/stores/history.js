@@ -63,7 +63,7 @@ export const useHistoryStore = defineStore('history', {
 
         const res = await axios.get(`/watch-history?${query}=${queryValue}`)
         const mapped = res.data.data
-          .filter(item => item.Video)
+          .filter((item) => item.Video)
           .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
           .map(mapHistory)
 
@@ -97,8 +97,8 @@ export const useHistoryStore = defineStore('history', {
         return
       }
 
-      const filtered = this.allVideoList.filter(video =>
-        video.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      const filtered = this.allVideoList.filter((video) =>
+        video.title.toLowerCase().includes(this.searchQuery.toLowerCase()),
       )
 
       this.videoList = filtered
@@ -112,6 +112,6 @@ export const useHistoryStore = defineStore('history', {
       this.searchQuery = ''
       this.hasMore = true
       this.isInitialized = false
-    }
-  }
+    },
+  },
 })

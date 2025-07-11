@@ -15,4 +15,3 @@ export function getVideoDuration(file) {
     video.src = URL.createObjectURL(file)
   })
 }
-

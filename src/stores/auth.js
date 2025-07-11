@@ -23,6 +23,6 @@ export const useAuthStore = defineStore('auth', {
     refreshFromToken() {
       const user = getUserFromToken()
       this.user = user
-    }
-  }
+    },
+  },
 })

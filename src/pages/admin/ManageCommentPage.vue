@@ -1,11 +1,7 @@
 <template>
   <div class="flex h-screen overflow-hidden">
     <main class="flex-1 bg-primary overflow-y-auto px-6 pb-6">
-      <Topbar
-        :showCategory="false"
-        :searchScope="'manage-comment'"
-        @search="handleSearch"
-      />
+      <Topbar :showCategory="false" :searchScope="'manage-comment'" @search="handleSearch" />
 
       <h1 class="text-2xl text-primary font-semibold mb-6">Kelola Komentar</h1>
 
@@ -55,46 +51,45 @@
         </div>
 
         <div class="mt-6 flex justify-center items-center gap-2 text-primary text-sm sm:text-base">
-  <!-- First Page -->
-  <button
-    class="bg-muted px-3 py-1 rounded disabled:opacity-50"
-    :disabled="commentStore.page === 1"
-    @click="commentStore.setPage(1)"
-  >
-    ⇤ First
-  </button>
+          <!-- First Page -->
+          <button
+            class="bg-muted px-3 py-1 rounded disabled:opacity-50"
+            :disabled="commentStore.page === 1"
+            @click="commentStore.setPage(1)"
+          >
+            ⇤ First
+          </button>
 
-  <!-- Previous Page -->
-  <button
-    class="bg-muted px-3 py-1 rounded disabled:opacity-50"
-    :disabled="commentStore.page === 1"
-    @click="commentStore.setPage(commentStore.page - 1)"
-  >
-    ← Sebelumnya
-  </button>
+          <!-- Previous Page -->
+          <button
+            class="bg-muted px-3 py-1 rounded disabled:opacity-50"
+            :disabled="commentStore.page === 1"
+            @click="commentStore.setPage(commentStore.page - 1)"
+          >
+            ← Sebelumnya
+          </button>
 
-  <!-- Page Info -->
-  <span>Halaman {{ commentStore.page }} dari {{ commentStore.totalPages }}</span>
+          <!-- Page Info -->
+          <span>Halaman {{ commentStore.page }} dari {{ commentStore.totalPages }}</span>
 
-  <!-- Next Page -->
-  <button
-    class="bg-muted px-3 py-1 rounded disabled:opacity-50"
-    :disabled="commentStore.page === commentStore.totalPages"
-    @click="commentStore.setPage(commentStore.page + 1)"
-  >
-    Selanjutnya →
-  </button>
+          <!-- Next Page -->
+          <button
+            class="bg-muted px-3 py-1 rounded disabled:opacity-50"
+            :disabled="commentStore.page === commentStore.totalPages"
+            @click="commentStore.setPage(commentStore.page + 1)"
+          >
+            Selanjutnya →
+          </button>
 
-  <!-- Last Page -->
-  <button
-    class="bg-muted px-3 py-1 rounded disabled:opacity-50"
-    :disabled="commentStore.page === commentStore.totalPages"
-    @click="commentStore.setPage(commentStore.totalPages)"
-  >
-    Last ⇥
-  </button>
+          <!-- Last Page -->
+          <button
+            class="bg-muted px-3 py-1 rounded disabled:opacity-50"
+            :disabled="commentStore.page === commentStore.totalPages"
+            @click="commentStore.setPage(commentStore.totalPages)"
+          >
+            Last ⇥
+          </button>
         </div>
-
       </div>
     </main>
   </div>
@@ -129,15 +124,15 @@ function handleDelete(id) {
     confirmButtonText: 'Ya, hapus',
     cancelButtonText: 'Batal',
     customClass: {
-          confirmButton: 'bg-blue-600 text-primary px-4 py-2 rounded hover:bg-blue-700',
-          cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
-        },
+      confirmButton: 'bg-blue-600 text-primary px-4 py-2 rounded hover:bg-blue-700',
+      cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
+    },
   }).then((result) => {
     if (result.isConfirmed) {
       const res = commentStore.deleteComment(id)
       if (res) {
         toast.success('Komentar berhasil dihapus')
-      }else {
+      } else {
         toast.error('Gagal menghapus komentar')
       }
     }

@@ -15,7 +15,7 @@ export const useManageVideoStore = defineStore('manageVideo', {
     filteredVideos(state) {
       if (!state.searchQuery) return state.videoList
       return state.videoList.filter((v) =>
-        v.title.toLowerCase().includes(state.searchQuery.toLowerCase())
+        v.title.toLowerCase().includes(state.searchQuery.toLowerCase()),
       )
     },
 
@@ -27,7 +27,7 @@ export const useManageVideoStore = defineStore('manageVideo', {
 
     totalPages(state) {
       return Math.ceil(this.filteredVideos.length / state.limit)
-    }
+    },
   },
 
   actions: {
@@ -71,12 +71,11 @@ export const useManageVideoStore = defineStore('manageVideo', {
       try {
         await axios.delete(`/videos/${id}`)
 
-        this.videoList = this.videoList.filter(video => video.id !== id)
+        this.videoList = this.videoList.filter((video) => video.id !== id)
       } catch (err) {
         console.error('Gagal menghapus video:', err)
         throw err
       }
     },
-
-  }
+  },
 })

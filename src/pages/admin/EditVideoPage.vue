@@ -10,13 +10,7 @@
       <p class="text-red-500">Gagal memuat video.</p>
     </div>
 
-    <VideoForm
-      v-else
-      :initialForm="video"
-      :mode="'edit'"
-      :videoId="video.id"
-      @submit="onSuccess"
-    />
+    <VideoForm v-else :initialForm="video" :mode="'edit'" :videoId="video.id" @submit="onSuccess" />
   </div>
 </template>
 

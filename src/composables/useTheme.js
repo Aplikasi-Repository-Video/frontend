@@ -43,6 +43,6 @@ export const useTheme = () => {
     isDark,
     toggleTheme,
     initTheme,
-    themeClasses
+    themeClasses,
   }
 }

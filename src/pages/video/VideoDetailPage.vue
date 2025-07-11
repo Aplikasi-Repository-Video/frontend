@@ -15,11 +15,7 @@
           :commentCount="video.commentCount"
           @toggle-like="toggleLike"
         />
-        <CommentForm
-          v-model="commentContent"
-          :isPosting="isPosting"
-          @post="postComment"
-        />
+        <CommentForm v-model="commentContent" :isPosting="isPosting" @post="postComment" />
         <h6 class="text-primary text-lg font-semibold mb-2">Komentar</h6>
         <VideoComments :comments="video.comments" />
       </div>
@@ -88,7 +84,7 @@ onMounted(() => {
         player.addEventListener('ended', () => reportWatchHistory(player))
       }
     },
-    { immediate: true }
+    { immediate: true },
   )
 })
 
@@ -97,4 +93,3 @@ onBeforeUnmount(() => {
   if (player) reportWatchHistory(player)
 })
 </script>
-

@@ -15,10 +15,11 @@ export const useCommentStore = defineStore('comment', {
   getters: {
     filteredComments(state) {
       const q = state.searchQuery.toLowerCase()
-      return state.allComments.filter((c) =>
-        c.content.toLowerCase().includes(q) ||
-        c.user.name.toLowerCase().includes(q) ||
-        c.video.title.toLowerCase().includes(q)
+      return state.allComments.filter(
+        (c) =>
+          c.content.toLowerCase().includes(q) ||
+          c.user.name.toLowerCase().includes(q) ||
+          c.video.title.toLowerCase().includes(q),
       )
     },
     paginatedComments(state) {
@@ -28,7 +29,7 @@ export const useCommentStore = defineStore('comment', {
     },
     totalPages(state) {
       return Math.ceil(this.filteredComments.length / state.limit)
-    }
+    },
   },
 
   actions: {
@@ -79,5 +80,5 @@ export const useCommentStore = defineStore('comment', {
         console.error(err)
       }
     },
-  }
+  },
 })

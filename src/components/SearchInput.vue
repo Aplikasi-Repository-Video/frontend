@@ -12,7 +12,9 @@
         type="text"
         class="rounded-full bg-passive text-primary w-full outline-none"
       />
-      <button @click="handleSearch" class="material-icons text-primary z-20 relative">search</button>
+      <button @click="handleSearch" class="material-icons text-primary z-20 relative">
+        search
+      </button>
     </div>
 
     <ul
@@ -26,7 +28,6 @@
       >
         <span
           @click="handleSelectSuggestion(item)"
-
           class="cursor-pointer flex-1 overflow-hidden text-ellipsis whitespace-nowrap"
         >
           {{ item }}
@@ -109,7 +110,6 @@ function handleSearch() {
   })
   showHistory.value = false
 }
-
 
 function handleSelectSuggestion(item) {
   searchQuery.value = item

@@ -27,24 +27,24 @@
       <div class="my-2 border-t border-secondary"></div>
 
       <button
-      @click="handleAuthAction"
-      class="relative z-10 flex items-center py-2 rounded-lg w-full text-left transition-all duration-200"
-      :class="[
-        isOpen ? 'gap-2 px-4 justify-start' : 'flex-col justify-center text-xs',
-        'hover:hover:text-purple-300',
-      ]"
-    >
-      <span class="material-icons" :class="isOpen ? 'text-xl' : 'text-lg'">
-        {{ isLoggedIn ? 'logout' : 'login' }}
-      </span>
+        @click="handleAuthAction"
+        class="relative z-10 flex items-center py-2 rounded-lg w-full text-left transition-all duration-200"
+        :class="[
+          isOpen ? 'gap-2 px-4 justify-start' : 'flex-col justify-center text-xs',
+          'hover:hover:text-purple-300',
+        ]"
+      >
+        <span class="material-icons" :class="isOpen ? 'text-xl' : 'text-lg'">
+          {{ isLoggedIn ? 'logout' : 'login' }}
+        </span>
 
-      <span v-if="isOpen">
-        {{ isLoggedIn ? 'Logout' : 'Login' }}
-      </span>
-      <span v-else class="text-center mt-1">
-        {{ isLoggedIn ? 'Logout' : 'Login' }}
-      </span>
-    </button>
+        <span v-if="isOpen">
+          {{ isLoggedIn ? 'Logout' : 'Login' }}
+        </span>
+        <span v-else class="text-center mt-1">
+          {{ isLoggedIn ? 'Logout' : 'Login' }}
+        </span>
+      </button>
     </div>
   </nav>
 </template>

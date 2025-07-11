@@ -56,7 +56,11 @@
               :type="showPassword ? 'text' : 'password'"
               placeholder="Kata Sandi"
               class="mt-1 w-full px-4 py-2 pr-12 border rounded-full focus:outline-none"
-              :class="isPasswordTooShort ? 'border-red-500 ring-red-300 ring-2' : 'focus:ring-2 focus:ring-blue-400'"
+              :class="
+                isPasswordTooShort
+                  ? 'border-red-500 ring-red-300 ring-2'
+                  : 'focus:ring-2 focus:ring-blue-400'
+              "
               required
             />
             <button
@@ -77,11 +81,13 @@
               :type="showConfirmPassword ? 'text' : 'password'"
               placeholder="Konfirmasi Kata Sandi"
               class="mt-1 w-full px-4 py-2 pr-12 border rounded-full focus:outline-none"
-              :class="isPasswordMismatch
-                ? 'border-red-500 ring-red-300 ring-2'
-                : isPasswordMatch
-                  ? 'border-green-500 ring-green-300 ring-2'
-                  : 'focus:ring-2 focus:ring-blue-400'"
+              :class="
+                isPasswordMismatch
+                  ? 'border-red-500 ring-red-300 ring-2'
+                  : isPasswordMatch
+                    ? 'border-green-500 ring-green-300 ring-2'
+                    : 'focus:ring-2 focus:ring-blue-400'
+              "
               required
             />
             <button
@@ -91,7 +97,9 @@
             >
               <component :is="showConfirmPassword ? EyeOff : Eye" class="w-5 h-5" />
             </button>
-            <p v-if="isPasswordMismatch" class="text-sm text-red-500 mt-1">Kata Sandi tidak cocok</p>
+            <p v-if="isPasswordMismatch" class="text-sm text-red-500 mt-1">
+              Kata Sandi tidak cocok
+            </p>
             <p v-else-if="isPasswordMatch" class="text-sm text-green-500 mt-1">Kata Sandi cocok</p>
           </div>
 
@@ -102,7 +110,7 @@
             class="w-full py-2 rounded-full bg-indigo-600 text-primary font-semibold transition"
             :class="{
               'opacity-60 cursor-not-allowed': isFormInvalid,
-              'hover:bg-indigo-700': !isFormInvalid
+              'hover:bg-indigo-700': !isFormInvalid,
             }"
           >
             {{ isSubmitting ? 'Mendaftarkan...' : 'Lanjutkan' }}
@@ -140,18 +148,19 @@ const router = useRouter()
 
 const isPasswordTooShort = computed(() => password.value.length > 0 && password.value.length < 6)
 const isPasswordMismatch = computed(
-  () => confirmPassword.value.length > 0 && confirmPassword.value !== password.value
+  () => confirmPassword.value.length > 0 && confirmPassword.value !== password.value,
 )
 const isPasswordMatch = computed(
-  () => confirmPassword.value === password.value && password.value.length >= 6
+  () => confirmPassword.value === password.value && password.value.length >= 6,
 )
 
-const isFormInvalid = computed(() =>
-  isSubmitting.value ||
-  isPasswordTooShort.value ||
-  isPasswordMismatch.value ||
-  !name.value.trim() ||
-  !email.value.trim()
+const isFormInvalid = computed(
+  () =>
+    isSubmitting.value ||
+    isPasswordTooShort.value ||
+    isPasswordMismatch.value ||
+    !name.value.trim() ||
+    !email.value.trim(),
 )
 
 const handleSubmit = async () => {

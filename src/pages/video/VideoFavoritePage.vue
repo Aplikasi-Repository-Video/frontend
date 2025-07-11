@@ -5,13 +5,12 @@
       class="flex-1 bg-primary overflow-y-auto no-scrollbar px-6 pb-6"
       @scroll.passive="handleScroll"
     >
-      <Topbar
-        :showCategory="false"
-        :searchScope="'favorite'"
-        @search="handleSearch"
-      />
+      <Topbar :showCategory="false" :searchScope="'favorite'" @search="handleSearch" />
 
-      <div v-if="favoriteStore.isLoading && favoriteStore.favoriteList.length === 0" class="text-primary">
+      <div
+        v-if="favoriteStore.isLoading && favoriteStore.favoriteList.length === 0"
+        class="text-primary"
+      >
         Loading video...
       </div>
 
@@ -31,7 +30,10 @@
           :isFavorite="true"
         />
 
-        <div v-if="favoriteStore.isLoading && favoriteStore.favoriteList.length > 0" class="text-center text-primary mt-4">
+        <div
+          v-if="favoriteStore.isLoading && favoriteStore.favoriteList.length > 0"
+          class="text-center text-primary mt-4"
+        >
           Memuat lebih banyak...
         </div>
       </div>

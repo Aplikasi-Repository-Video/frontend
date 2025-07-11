@@ -14,6 +14,5 @@ dayjs.extend(relativeTime)
 dayjs.locale('id')
 defineProps({ video: Object })
 
-
 const timeAgo = (timestamp) => dayjs(timestamp).fromNow()
 </script>

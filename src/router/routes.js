@@ -55,7 +55,7 @@ export default [
   {
     path: '/favorites/watch/:id',
     name: 'FavoriteWatch',
-    component: VideoDetail
+    component: VideoDetail,
   },
   {
     path: '/search',
@@ -85,40 +85,40 @@ export default [
     path: '/admin/users',
     name: 'ManageUser',
     component: ManageUserPage,
-    meta: { middleware: ['auth', 'admin'] }
+    meta: { middleware: ['auth', 'admin'] },
   },
   {
     path: '/admin/comments',
     name: 'ManageComment',
     component: ManageCommentPage,
-    meta: { middleware: ['auth', 'admin'] }
+    meta: { middleware: ['auth', 'admin'] },
   },
   {
     path: '/admin/upload',
     name: 'UploadVideo',
     component: UploadVideoPage,
-    meta: { middleware: ['auth', 'admin'] }
+    meta: { middleware: ['auth', 'admin'] },
   },
   {
     path: '/admin/videos/:id/edit',
     name: 'EditVideo',
     component: EditVideoPage,
-    meta: { middleware: ['auth', 'admin'] }
+    meta: { middleware: ['auth', 'admin'] },
   },
   {
     path: '/admin/dashboard',
     name: 'AdminDashboard',
     component: AdminDashboard,
-    meta: { middleware: ['auth', 'admin'] }
+    meta: { middleware: ['auth', 'admin'] },
   },
   {
     path: '/not-found',
     name: 'NotFound',
-    component: NotFoundPage
+    component: NotFoundPage,
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: NotFoundPage
-  }
+    component: NotFoundPage,
+  },
 ]

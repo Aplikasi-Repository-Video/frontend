@@ -5,13 +5,12 @@
       class="flex-1 bg-primary overflow-y-auto no-scrollbar px-6 pb-6"
       @scroll.passive="handleScroll"
     >
-      <Topbar
-        :showCategory="false"
-        :searchScope="'history'"
-        @search="handleSearch"
-      />
+      <Topbar :showCategory="false" :searchScope="'history'" @search="handleSearch" />
 
-      <div v-if="historyStore.isLoading && historyStore.videoList.length === 0" class="text-primary">
+      <div
+        v-if="historyStore.isLoading && historyStore.videoList.length === 0"
+        class="text-primary"
+      >
         Loading video...
       </div>
 
@@ -24,7 +23,10 @@
           :isHistory="true"
         />
 
-        <div v-if="historyStore.isLoading && historyStore.videoList.length > 0" class="text-center text-primary mt-4">
+        <div
+          v-if="historyStore.isLoading && historyStore.videoList.length > 0"
+          class="text-center text-primary mt-4"
+        >
           Memuat lebih banyak...
         </div>
 

@@ -34,6 +34,6 @@ export const useUploadVideoStore = defineStore('uploadVideo', {
       } finally {
         this.isUploading = false
       }
-    }
-  }
+    },
+  },
 })

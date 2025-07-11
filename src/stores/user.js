@@ -15,23 +15,16 @@ export const useUserStore = defineStore('user', {
   getters: {
     filteredUsers(state) {
       if (!state.searchQuery) {
-        return state.userList.slice().sort((a, b) =>
-          new Date(b.updated) - new Date(a.updated)
-        )
+        return state.userList.slice().sort((a, b) => new Date(b.updated) - new Date(a.updated))
       }
 
       const q = state.searchQuery.toLowerCase()
-      const filtered = state.userList.filter((u) =>
-        u.email.toLowerCase().includes(q) ||
-        u.name?.toLowerCase().includes(q)
+      const filtered = state.userList.filter(
+        (u) => u.email.toLowerCase().includes(q) || u.name?.toLowerCase().includes(q),
       )
 
-      return filtered.sort((a, b) =>
-        new Date(b.updated) - new Date(a.updated)
-      )
-    }
-    ,
-
+      return filtered.sort((a, b) => new Date(b.updated) - new Date(a.updated))
+    },
     paginatedUsers(state) {
       const start = (state.page - 1) * state.limit
       const end = state.page * state.limit
@@ -40,7 +33,7 @@ export const useUserStore = defineStore('user', {
 
     totalPages(state) {
       return Math.ceil(this.filteredUsers.length / state.limit)
-    }
+    },
   },
 
   actions: {
@@ -104,6 +97,6 @@ export const useUserStore = defineStore('user', {
         console.error('Gagal update user:', err)
         throw err
       }
-    }
-  }
+    },
+  },
 })

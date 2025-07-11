@@ -120,17 +120,29 @@ export function useUploadForm({ mode = 'create', initialForm = null, videoId = n
       }
 
       const videoUrl = form.value.video
-        ? await uploadToCloudinary(form.value.video, 'upload_preset_video', 'video', 'video', (p) => {
-          videoProgress = p
-          updateOverallProgress()
-        })
+        ? await uploadToCloudinary(
+            form.value.video,
+            'upload_preset_video',
+            'video',
+            'video',
+            (p) => {
+              videoProgress = p
+              updateOverallProgress()
+            },
+          )
         : initialForm?.video_url
 
       const thumbUrl = form.value.thumbnail
-        ? await uploadToCloudinary(form.value.thumbnail, 'upload_preset_thumbnail', 'thumbnail', 'image', (p) => {
-          thumbProgress = p
-          updateOverallProgress()
-        })
+        ? await uploadToCloudinary(
+            form.value.thumbnail,
+            'upload_preset_thumbnail',
+            'thumbnail',
+            'image',
+            (p) => {
+              thumbProgress = p
+              updateOverallProgress()
+            },
+          )
         : initialForm?.thumbnail_url
 
       const payload = {
@@ -164,7 +176,6 @@ export function useUploadForm({ mode = 'create', initialForm = null, videoId = n
     }
   }
 
-
   const uploadToCloudinary = async (file, preset, folder, type = 'image', onProgress) => {
     const formData = new FormData()
     formData.append('file', file)
@@ -179,7 +190,7 @@ export function useUploadForm({ mode = 'create', initialForm = null, videoId = n
           const progress = Math.round((e.loaded / e.total) * 100)
           onProgress(progress)
         }
-      }
+      },
     })
 
     if (res.data.secure_url) return res.data.secure_url
@@ -229,4 +240,3 @@ export function useUploadForm({ mode = 'create', initialForm = null, videoId = n
     videoId,
   }
 }
-

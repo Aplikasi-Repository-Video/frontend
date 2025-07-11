@@ -1,10 +1,11 @@
 <template>
   <div class="flex h-screen overflow-hidden">
-<main
-  ref="scrollAreaRef"
-  class="flex-1 bg-primary overflow-y-auto no-scrollbar px-6 pb-6"
-  @scroll.passive="handleScroll"
->      <Topbar
+    <main
+      ref="scrollAreaRef"
+      class="flex-1 bg-primary overflow-y-auto no-scrollbar px-6 pb-6"
+      @scroll.passive="handleScroll"
+    >
+      <Topbar
         :showCategory="true"
         :searchScope="'dashboard'"
         @search="handleSearch"
@@ -22,7 +23,9 @@
 
         <template v-if="videoStore.searchQuery || videoStore.videoList.length > 0">
           <Section
-            :title="videoStore.searchQuery ? 'Hasil pencarian untuk : ' + videoStore.searchQuery : ''"
+            :title="
+              videoStore.searchQuery ? 'Hasil pencarian untuk : ' + videoStore.searchQuery : ''
+            "
             :videos="videoStore.videoList"
           />
 
@@ -38,7 +41,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch  } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useVideoStore } from '@/stores/video'
 import Topbar from '@/components/layout/TopBar.vue'
@@ -59,7 +62,7 @@ watch(
 
     videoStore.updateSearchQuery(newQuery)
     videoStore.fetchVideos({ keyword: newQuery, reset: true })
-  }
+  },
 )
 
 function handleScroll() {
@@ -91,10 +94,7 @@ function handleCategorySelected({ id }) {
 onMounted(() => {
   const keyword = route.query.q || ''
 
-  if (
-    videoStore.videoList.length > 0 &&
-    videoStore.searchQuery === keyword
-  ) {
+  if (videoStore.videoList.length > 0 && videoStore.searchQuery === keyword) {
     return
   }
 
@@ -103,7 +103,6 @@ onMounted(() => {
     videoStore.fetchVideos({ keyword, reset: true })
   }
 })
-
 </script>
 
 <style scoped>

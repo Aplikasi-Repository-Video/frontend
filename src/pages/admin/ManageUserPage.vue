@@ -1,11 +1,7 @@
 <template>
   <div class="flex h-screen overflow-hidden">
     <main class="flex-1 bg-primary overflow-y-auto px-6 pb-6">
-      <Topbar
-        :showCategory="false"
-        :searchScope="'manage-user'"
-        @search="handleSearch"
-      />
+      <Topbar :showCategory="false" :searchScope="'manage-user'" @search="handleSearch" />
 
       <h1 class="text-2xl text-primary font-semibold mb-6">Kelola User</h1>
 
@@ -29,9 +25,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(user, index) in userStore.paginatedUsers"
-              :key="user.id"
-              class="border-t border-primary hover:bg-passive"
+              <tr
+                v-for="(user, index) in userStore.paginatedUsers"
+                :key="user.id"
+                class="border-t border-primary hover:bg-passive"
               >
                 <td class="px-4 py-3">
                   {{ index + 1 + (userStore.page - 1) * userStore.limit }}
@@ -187,5 +184,4 @@ async function handleStatusChange(userId, newStatus) {
     await userStore.fetchUsers()
   }
 }
-
 </script>

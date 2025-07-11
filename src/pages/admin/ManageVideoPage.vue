@@ -1,11 +1,7 @@
 <template>
   <div class="flex h-screen overflow-hidden">
     <main class="flex-1 bg-primary overflow-y-auto px-6 pb-6">
-      <Topbar
-        :showCategory="false"
-        :searchScope="'manage'"
-        @search="handleSearch"
-      />
+      <Topbar :showCategory="false" :searchScope="'manage'" @search="handleSearch" />
 
       <div v-if="store.isLoading" class="text-primary">Memuat data video...</div>
 
@@ -38,9 +34,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(video, index) in store.paginatedVideos"
-                :key="video.id"
-                class="border-t border-primary hover:bg-passive"
+                <tr
+                  v-for="(video, index) in store.paginatedVideos"
+                  :key="video.id"
+                  class="border-t border-primary hover:bg-passive"
                 >
                   <td class="px-4 py-3">
                     {{ index + 1 + (store.page - 1) * store.limit }}
@@ -59,11 +56,11 @@
                   <td class="px-4 py-3">
                     <div class="flex gap-2">
                       <button
-                          class="bg-blue-600 hover:bg-blue-700 text-primary px-3 py-1 rounded text-xs"
-                          @click="goToEdit(video.id)"
-                        >
-                          Edit
-                        </button>
+                        class="bg-blue-600 hover:bg-blue-700 text-primary px-3 py-1 rounded text-xs"
+                        @click="goToEdit(video.id)"
+                      >
+                        Edit
+                      </button>
                       <button
                         class="bg-red-600 hover:bg-red-700 text-primary px-3 py-1 rounded text-xs"
                         @click="deleteVideo(video.id)"
@@ -76,7 +73,9 @@
               </tbody>
             </table>
           </div>
-          <div class="mt-6 flex justify-center items-center gap-2 text-primary text-sm sm:text-base">
+          <div
+            class="mt-6 flex justify-center items-center gap-2 text-primary text-sm sm:text-base"
+          >
             <!-- First Page -->
             <button
               class="bg-muted px-3 py-1 rounded disabled:opacity-50"
@@ -116,7 +115,6 @@
               Last ⇥
             </button>
           </div>
-
         </div>
       </div>
     </main>
@@ -134,7 +132,6 @@ const toast = useToast()
 const store = useManageVideoStore()
 const router = useRouter()
 
-
 onMounted(() => {
   store.fetchMyVideos()
 })
@@ -145,7 +142,6 @@ function handleSearch({ query, scope }) {
 }
 
 async function deleteVideo(id) {
-
   try {
     const confirmed = await Swal.fire({
       title: 'Apakah kamu yakin?',
@@ -172,7 +168,6 @@ async function deleteVideo(id) {
     toast.error(`Terjadi kesalahan saat menghapus video: ${err.message}`)
   }
 }
-
 
 function goToEdit(id) {
   router.push(`/admin/videos/${id}/edit`)

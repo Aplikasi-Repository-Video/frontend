@@ -38,8 +38,8 @@ export const useVideoStore = defineStore('video', {
       try {
         const res = keyword
           ? await axios.get('/search', {
-            params: { keyword },
-          })
+              params: { keyword },
+            })
           : await axios.get('/videos')
 
         const allVideos = res.data.data.map(mapVideo)
@@ -47,7 +47,9 @@ export const useVideoStore = defineStore('video', {
         if (reset) {
           this.videoList = allVideos.slice(0, this.limit)
         } else {
-          this.videoList.push(...allVideos.slice((this.page - 1) * this.limit, this.page * this.limit))
+          this.videoList.push(
+            ...allVideos.slice((this.page - 1) * this.limit, this.page * this.limit),
+          )
         }
 
         this.hasMore = this.videoList.length < allVideos.length
@@ -67,6 +69,6 @@ export const useVideoStore = defineStore('video', {
       this.videoList = []
       this.page = 1
       this.hasMore = true
-    }
-  }
+    },
+  },
 })

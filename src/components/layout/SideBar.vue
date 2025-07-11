@@ -10,11 +10,7 @@
     <SideBarMenu :menus="menus" :logoutMenu="logoutMenu" :isOpen="isOpen" :isActive="isActive" />
   </aside>
 
-  <div
-    v-if="isOpen"
-    class="fixed inset-0 bg-black bg-opacity-50 z-40"
-    @click="toggleSidebar"
-  ></div>
+  <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 z-40" @click="toggleSidebar"></div>
 </template>
 
 <script setup>
@@ -81,6 +77,6 @@ watch(
   () => route.path,
   () => {
     isOpen.value = false
-  }
+  },
 )
 </script>

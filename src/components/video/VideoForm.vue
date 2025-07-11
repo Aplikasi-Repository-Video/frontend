@@ -4,36 +4,32 @@
     <form @submit.prevent="onSubmit" class="md:w-1/2 space-y-4 ml-2" enctype="multipart/form-data">
       <div>
         <label class="block text-sm mb-4">Judul Video</label>
-      <input
-        v-model="form.title"
-        type="text"
-        placeholder="Judul Video"
-        class="w-full p-2 bg-secondary rounded mb-2"
-        required
-      />
+        <input
+          v-model="form.title"
+          type="text"
+          placeholder="Judul Video"
+          class="w-full p-2 bg-secondary rounded mb-2"
+          required
+        />
       </div>
       <div>
         <label class="block text-sm mb-4">Deskripsi Video</label>
-      <textarea
-        v-model="form.description"
-        placeholder="Deskripsi Video"
-        class="w-full p-2 bg-secondary rounded"
-        rows="4"
-        required
-      ></textarea>
+        <textarea
+          v-model="form.description"
+          placeholder="Deskripsi Video"
+          class="w-full p-2 bg-secondary rounded"
+          rows="4"
+          required
+        ></textarea>
       </div>
       <div>
         <label class="block text-sm mb-4">Kategori</label>
-      <select
-        v-model="form.category_id"
-        class="w-full p-2 bg-secondary rounded"
-        required
-      >
-        <option disabled value="">Pilih Kategori</option>
-        <option v-for="category in categories" :key="category.id" :value="category.id">
-          {{ category.name }}
-        </option>
-      </select>
+        <select v-model="form.category_id" class="w-full p-2 bg-secondary rounded" required>
+          <option disabled value="">Pilih Kategori</option>
+          <option v-for="category in categories" :key="category.id" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
       </div>
 
       <!-- Video Upload -->
@@ -113,7 +109,11 @@
       <div v-if="videoPreview">
         <label class="block text-sm mb-4">Preview Video</label>
         <div class="relative w-full pt-[56.25%] rounded overflow-hidden">
-          <video :src="videoPreview" controls class="absolute top-0 left-0 w-full h-full object-contain" />
+          <video
+            :src="videoPreview"
+            controls
+            class="absolute top-0 left-0 w-full h-full object-contain"
+          />
         </div>
       </div>
 
@@ -169,4 +169,3 @@ function onSubmit() {
     .catch((e) => console.error('Submit gagal:', e))
 }
 </script>
-

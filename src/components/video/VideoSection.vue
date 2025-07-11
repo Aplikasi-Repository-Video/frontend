@@ -7,15 +7,15 @@
         v-for="video in visibleVideos"
         :key="video.id"
         :to="{
-          path:
-            isHistory
-              ? `/history/watch/${video.id}`
-              : isFavorite
-                ? `/favorites/watch/${video.id}`
-                : `/videos/watch/${video.id}`,
-          query: (isHistory || isFavorite) && video.lastTime !== undefined
-            ? { start: video.lastTime }
-            : {},
+          path: isHistory
+            ? `/history/watch/${video.id}`
+            : isFavorite
+              ? `/favorites/watch/${video.id}`
+              : `/videos/watch/${video.id}`,
+          query:
+            (isHistory || isFavorite) && video.lastTime !== undefined
+              ? { start: video.lastTime }
+              : {},
         }"
         class="w-full block"
       >
@@ -56,7 +56,7 @@ const props = defineProps({
   isFavorite: {
     type: Boolean,
     default: false,
-  }
+  },
 })
 
 const page = ref(1)
@@ -64,7 +64,10 @@ const perPage = 8
 const isLoadingMore = ref(false)
 
 const visibleVideos = computed(() => {
-  if (props.disableLimit || (props.title && props.title.toLowerCase().includes('hasil pencarian'))) {
+  if (
+    props.disableLimit ||
+    (props.title && props.title.toLowerCase().includes('hasil pencarian'))
+  ) {
     return props.videos
   }
   return props.videos.slice(0, page.value * perPage)
@@ -83,9 +86,12 @@ function handleScroll() {
   }
 }
 
-watch(() => props.videos, () => {
-  page.value = 1
-})
+watch(
+  () => props.videos,
+  () => {
+    page.value = 1
+  },
+)
 
 onMounted(() => {
   if (!props.disableLimit) {

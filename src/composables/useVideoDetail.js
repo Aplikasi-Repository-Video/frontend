@@ -35,7 +35,7 @@ export function useVideoDetail() {
       likeCount.value = data.Like.length
       liked.value = data.Like.some((like) => like.user_id === user?.id)
     } catch (error) {
-      if (error.response && error.response.status === 404 || error.response.status === 500) {
+      if ((error.response && error.response.status === 404) || error.response.status === 500) {
         const router = useRouter()
 
         router.push('/not-found') // Pastikan halaman ini ada
@@ -43,7 +43,6 @@ export function useVideoDetail() {
         console.error('❌ Gagal mengambil detail video:', error)
       }
     }
-
   }
 
   async function toggleLike() {
@@ -154,7 +153,9 @@ export function useVideoDetail() {
       const payload = {
         video_id: video.value.id,
         duration_watch: watched,
-        ...(user?.id ? { user_id: user.id } : { guest_id: localStorage.getItem('guest_id') || generateGuestId() })
+        ...(user?.id
+          ? { user_id: user.id }
+          : { guest_id: localStorage.getItem('guest_id') || generateGuestId() }),
       }
 
       try {

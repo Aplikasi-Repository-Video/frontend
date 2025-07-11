@@ -21,7 +21,7 @@ export const useFavoriteStore = defineStore('favorite', {
     page: 1,
     limit: 12,
     hasMore: true,
-    searchQuery: ''
+    searchQuery: '',
   }),
 
   actions: {
@@ -41,9 +41,7 @@ export const useFavoriteStore = defineStore('favorite', {
 
       try {
         const res = await axios.get('/likes/user')
-        const videos = res.data.data
-          .filter(item => item.Video)
-          .map(mapFavorite)
+        const videos = res.data.data.filter((item) => item.Video).map(mapFavorite)
 
         if (reset) {
           this.allVideoList = videos
@@ -77,8 +75,8 @@ export const useFavoriteStore = defineStore('favorite', {
         return
       }
 
-      const filtered = this.allVideoList.filter(v =>
-        v.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      const filtered = this.allVideoList.filter((v) =>
+        v.title.toLowerCase().includes(this.searchQuery.toLowerCase()),
       )
       this.favoriteList = filtered
       this.hasMore = false
@@ -90,6 +88,6 @@ export const useFavoriteStore = defineStore('favorite', {
       this.allVideoList = []
       this.searchQuery = ''
       this.hasMore = true
-    }
-  }
+    },
+  },
 })
