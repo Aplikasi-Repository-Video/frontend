@@ -104,6 +104,7 @@ onMounted(async () => {
   try {
     const res = await axios.get('/categories')
     kategoriList.value = res.data.data
+    await selectCategory(null)
   } catch (error) {
     console.error('Gagal mengambil kategori:', error)
   }
@@ -113,13 +114,7 @@ const selectCategory = async (id) => {
   selectedCategoryId.value = id
   isLoading.value = true
   try {
-    const url = id ? `/videos/category/${id}` : '/videos'
-    const res = await axios.get(url)
-
-    safeEmit('categorySelected', {
-      id,
-      videos: res.data.data,
-    })
+    safeEmit('categorySelected', { id })
   } catch (error) {
     console.error('Gagal mengambil video:', error)
   } finally {

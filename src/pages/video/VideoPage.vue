@@ -40,7 +40,7 @@
 <script setup>
 import { ref, onMounted, watch  } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useVideoStore, mapVideo } from '@/stores/video'
+import { useVideoStore } from '@/stores/video'
 import Topbar from '@/components/layout/TopBar.vue'
 import Section from '@/components/video/VideoSection.vue'
 
@@ -81,14 +81,12 @@ function handleSearch(payload) {
   router.push({ path: '/search', query: { q: query.trim() } })
 }
 
-
-function handleCategorySelected({ videos }) {
+function handleCategorySelected({ id }) {
   videoStore.updateSearchQuery('')
-  videoStore.videoList = videos.map(mapVideo)
-  videoStore.page = 2 // atau 1, tergantung kamu mau pagination lanjut dari mana
-  videoStore.hasMore = false // kalau hasil kategori tidak bisa scroll infinite
-}
+  videoStore.categoryId = id
 
+  videoStore.fetchVideos({ reset: true })
+}
 
 onMounted(() => {
   const keyword = route.query.q || ''
