@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 // import vueDevTools from 'vite-plugin-vue-devtools'
 
-const ngrokHost = '4e9e-103-47-133-69.ngrok-free.app'
+const ngrokHost = 'a158bfa7b64d.ngrok-free.app'
 
 
 // https://vite.dev/config/
@@ -19,9 +19,9 @@ export default defineConfig({
     },
   },
   server: {
-    host: '0.0.0.0', // agar bisa diakses dari IP LAN (misal HP)
-    port: 5173,       // opsional, bisa ganti kalau bentrok
-    allowedHosts: [ngrokHost], // 🔥 Tambahkan ini!
+    host: '0.0.0.0',
+    port: 5173,
+    allowedHosts: [ngrokHost],
 
   }
 })

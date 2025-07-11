@@ -84,7 +84,6 @@ function handleScroll() {
 }
 
 watch(() => props.videos, () => {
-    console.log('Updated videos:', props.videos.map(v => v.thumbnail))
   page.value = 1
 })
 

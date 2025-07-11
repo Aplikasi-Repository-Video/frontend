@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch  } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useVideoStore, mapVideo } from '@/stores/video'
 import Topbar from '@/components/layout/TopBar.vue'
@@ -50,6 +50,18 @@ const router = useRouter()
 
 const scrollAreaRef = ref(null)
 
+watch(
+  () => route.query.q,
+  (newQuery) => {
+    if (!newQuery || !newQuery.trim()) return
+
+    if (videoStore.searchQuery === newQuery) return
+
+    videoStore.updateSearchQuery(newQuery)
+    videoStore.fetchVideos({ keyword: newQuery, reset: true })
+  }
+)
+
 function handleScroll() {
   const el = scrollAreaRef.value
   if (!el || videoStore.isLoading || !videoStore.hasMore) return
@@ -60,11 +72,15 @@ function handleScroll() {
   }
 }
 
-function handleSearch({ query, scope }) {
+function handleSearch(payload) {
+  const { query, scope } = payload
+
   if (scope !== 'dashboard') return
   if (!query || !query.trim()) return
+
   router.push({ path: '/search', query: { q: query.trim() } })
 }
+
 
 function handleCategorySelected({ videos }) {
   videoStore.updateSearchQuery('')
@@ -76,17 +92,20 @@ function handleCategorySelected({ videos }) {
 
 onMounted(() => {
   const keyword = route.query.q || ''
- if (
+
+  if (
     videoStore.videoList.length > 0 &&
     videoStore.searchQuery === keyword
   ) {
     return
   }
 
-  videoStore.updateSearchQuery(keyword)
-  videoStore.fetchVideos({ keyword, reset: true })
-}
-)
+  if (keyword.trim()) {
+    videoStore.updateSearchQuery(keyword)
+    videoStore.fetchVideos({ keyword, reset: true })
+  }
+})
+
 </script>
 
 <style scoped>

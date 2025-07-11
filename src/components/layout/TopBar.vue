@@ -32,7 +32,7 @@
       <div class="flex gap-2 mt-2 pb-3">
         <button
           :class="[
-            'px-4 py-1 rounded-full text-sm whitespace-nowrap',
+            'px-4 py-1 rounded-full text-sm whitespace-nowrap flex items-center gap-1',
             selectedCategoryId === null
               ? 'bg-white text-black font-semibold'
               : 'bg-[#1e1b2e] text-white border border-gray-600',
@@ -40,13 +40,14 @@
           @click="selectCategory(null)"
         >
           Semua
+          <span v-if="isLoading && selectedCategoryId === null" class="text-xs animate-spin">⏳</span>
         </button>
 
         <button
           v-for="kategori in kategoriList"
           :key="kategori.id"
           :class="[
-            'px-4 py-1 rounded-full text-sm whitespace-nowrap',
+            'px-4 py-1 rounded-full text-sm whitespace-nowrap flex items-center gap-1',
             selectedCategoryId === kategori.id
               ? 'bg-white text-black font-semibold'
               : 'bg-[#1e1b2e] text-white border border-gray-600',
@@ -54,7 +55,9 @@
           @click="selectCategory(kategori.id)"
         >
           {{ kategori.name }}
+          <span v-if="isLoading && selectedCategoryId === kategori.id" class="text-xs animate-spin">⏳</span>
         </button>
+
       </div>
     </div>
   </div>
@@ -75,6 +78,8 @@ const props = defineProps({
     default: 'dashboard',
   },
 })
+
+const isLoading = ref(false)
 
 const emit = defineEmits(['search', 'categorySelected'])
 const instance = getCurrentInstance()
@@ -106,6 +111,7 @@ onMounted(async () => {
 
 const selectCategory = async (id) => {
   selectedCategoryId.value = id
+  isLoading.value = true
   try {
     const url = id ? `/videos/category/${id}` : '/videos'
     const res = await axios.get(url)
@@ -116,8 +122,11 @@ const selectCategory = async (id) => {
     })
   } catch (error) {
     console.error('Gagal mengambil video:', error)
+  } finally {
+    isLoading.value = false
   }
 }
+
 </script>
 
 <style scoped>

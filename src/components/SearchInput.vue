@@ -67,6 +67,9 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useSearch } from '@/composables/useSearch'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 const props = defineProps({
   searchScope: {
@@ -92,24 +95,30 @@ const showAllHistory = ref(false)
 const searchContainer = ref(null)
 
 function handleSearch() {
-  if (!searchQuery.value || !searchQuery.value.trim()) return
+  const query = searchQuery.value?.trim()
 
-  addToHistory(searchQuery.value)
+  if (!query || query.length < 3) {
+    toast.error('Pencarian harus minimal 3 karakter')
+    return
+  }
+
+  addToHistory(query)
   emit('search', {
-    query: searchQuery.value,
+    query,
     scope: props.searchScope,
   })
   showHistory.value = false
 }
 
+
 function handleSelectSuggestion(item) {
-  searchQuery.value = item          // ← ini untuk menampilkan text yang diklik ke input
-  addToHistory(item)                // ← agar suggestion juga disimpan ulang di atas history
+  searchQuery.value = item
+  addToHistory(item)
   emit('search', {
     query: item,
     scope: props.searchScope,
   })
-  showHistory.value = false         // ← menutup dropdown history
+  showHistory.value = false
 }
 
 const placeholderText = computed(() => {
