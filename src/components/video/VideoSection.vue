@@ -3,32 +3,40 @@
     <h2 class="text-primary font-bold mb-2">{{ title }}</h2>
 
     <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <router-link
-        v-for="video in visibleVideos"
-        :key="video.id"
-        :to="{
-          path: isHistory
-            ? `/history/watch/${video.id}`
-            : isFavorite
-              ? `/favorites/watch/${video.id}`
-              : `/videos/watch/${video.id}`,
-          query:
-            (isHistory || isFavorite) && video.lastTime !== undefined
-              ? { start: video.lastTime }
-              : {},
-        }"
-        class="w-full block"
-      >
-        <VideoCard
-          :id="video.id"
-          :title="video.title"
-          :year="video.year"
-          :thumbnail="video.thumbnail"
-          :videoUrl="video.videoUrl"
-          :createdAt="video.createdAt"
-          class="w-full"
-        />
-      </router-link>
+      <div v-for="video in visibleVideos" :key="video.id" class="relative group w-full">
+        <button
+          v-if="isHistory"
+          @click="$emit('delete-history', video)"
+          class="absolute top-2 right-2 z-10 bg-red-600 text-white text-xs px-2 py-1 rounded transition"
+        >
+          Hapus
+        </button>
+
+        <router-link
+          :to="{
+            path: isHistory
+              ? `/history/watch/${video.id}`
+              : isFavorite
+                ? `/favorites/watch/${video.id}`
+                : `/videos/watch/${video.id}`,
+            query:
+              (isHistory || isFavorite) && video.lastTime !== undefined
+                ? { start: video.lastTime }
+                : {},
+          }"
+          class="block"
+        >
+          <VideoCard
+            :id="video.id"
+            :title="video.title"
+            :year="video.year"
+            :thumbnail="video.thumbnail"
+            :videoUrl="video.videoUrl"
+            :createdAt="video.createdAt"
+            class="w-full"
+          />
+        </router-link>
+      </div>
     </div>
 
     <div v-if="isLoadingMore" class="text-center text-primary mt-4">Memuat lebih banyak...</div>

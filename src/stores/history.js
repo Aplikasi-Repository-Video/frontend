@@ -4,6 +4,7 @@ import { getUserFromToken } from '@/utils/auth'
 
 function mapHistory(item) {
   return {
+    historyId: item.id,
     id: item.Video.id,
     title: item.Video.title,
     year: new Date(item.Video.created).getFullYear(),
@@ -67,6 +68,8 @@ export const useHistoryStore = defineStore('history', {
           .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
           .map(mapHistory)
 
+        console.log('📜 Riwayat video:', mapped)
+
         if (reset) {
           this.allVideoList = mapped
         }
@@ -112,6 +115,22 @@ export const useHistoryStore = defineStore('history', {
       this.searchQuery = ''
       this.hasMore = true
       this.isInitialized = false
+    },
+
+    async deleteWatchHistory(historyId) {
+      try {
+        await axios.delete(`/watch-history/${historyId}`)
+
+        this.videoList = this.videoList.filter((v) => v.historyId !== historyId)
+        this.allVideoList = this.allVideoList.filter((v) => v.historyId !== historyId)
+
+        if (this.videoList.length === 0 && this.page > 1) {
+          this.page--
+          await this.fetchWatchHistory()
+        }
+      } catch (error) {
+        console.error('❌ Gagal menghapus riwayat video:', error)
+      }
     },
   },
 })

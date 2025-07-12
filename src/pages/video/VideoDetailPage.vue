@@ -48,7 +48,7 @@ const {
   reportWatchHistory,
   setupWatchHistoryReporting,
   setupVisibilityBasedReporting,
-  resetReporting
+  resetReporting,
 } = useVideoDetail()
 
 const route = useRoute()
@@ -129,7 +129,7 @@ onMounted(() => {
         }, 100)
       }
     },
-    { immediate: true }
+    { immediate: true },
   )
 
   watch(
@@ -143,7 +143,7 @@ onMounted(() => {
           setupReporting(player)
         }
       }
-    }
+    },
   )
 })
 

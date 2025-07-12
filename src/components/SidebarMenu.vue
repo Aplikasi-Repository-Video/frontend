@@ -83,18 +83,18 @@ const confirmLogout = async () => {
 
 const handleLoginClick = async () => {
   const result = await Swal.fire({
-  title: 'Butuh Login',
-  text: 'Kamu belum login. Apakah ingin pergi ke halaman login?',
-  icon: 'question',
-  showCancelButton: true,
-  confirmButtonText: 'Ya, Login',
-  cancelButtonText: 'Batal',
-  buttonsStyling: false,
-  customClass: {
-    confirmButton: 'bg-blue-600 text-primary px-4 py-2 rounded hover:bg-blue-700',
-    cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
-  },
-})
+    title: 'Butuh Login',
+    text: 'Kamu belum login. Apakah ingin pergi ke halaman login?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Ya, Login',
+    cancelButtonText: 'Batal',
+    buttonsStyling: false,
+    customClass: {
+      confirmButton: 'bg-blue-600 text-primary px-4 py-2 rounded hover:bg-blue-700',
+      cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
+    },
+  })
 
   if (result.isConfirmed) {
     router.push('/login')
@@ -114,19 +114,18 @@ const publicPaths = ['/', '/history', '/videos']
 const handleMenuClick = async (path) => {
   if (!isLoggedIn.value && !publicPaths.includes(path)) {
     const result = await Swal.fire({
-  title: 'Butuh Login',
-  text: 'Kamu harus login untuk mengakses halaman ini.',
-  icon: 'info',
-  confirmButtonText: 'Login Sekarang',
-  showCancelButton: true,
-  cancelButtonText: 'Batal',
-  buttonsStyling: false,
-  customClass: {
-    confirmButton: 'bg-blue-600 text-primary px-4 py-2 rounded hover:bg-blue-700',
-    cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
-  },
-})
-
+      title: 'Butuh Login',
+      text: 'Kamu harus login untuk mengakses halaman ini.',
+      icon: 'info',
+      confirmButtonText: 'Login Sekarang',
+      showCancelButton: true,
+      cancelButtonText: 'Batal',
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'bg-blue-600 text-primary px-4 py-2 rounded hover:bg-blue-700',
+        cancelButton: 'bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 ml-2',
+      },
+    })
 
     if (result.isConfirmed) {
       router.push('/login')

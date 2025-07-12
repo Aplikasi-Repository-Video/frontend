@@ -157,7 +157,7 @@ export function useVideoDetail() {
       hasVideo: !!video.value,
       hasPlayer: !!videoPlayer,
       isReporting: reportingInProgress,
-      forceReport
+      forceReport,
     })
 
     if (!video.value || !videoPlayer) {
@@ -208,7 +208,7 @@ export function useVideoDetail() {
       shouldReport,
       watchedEnough: watched >= threshold,
       notAlreadyWatched: !alreadyWatched(video.value.id),
-      forceReport
+      forceReport,
     })
 
     if (shouldReport || forceReport) {
@@ -228,9 +228,7 @@ export function useVideoDetail() {
         const payload = {
           video_id: video.value.id.toString(),
           duration_watch: watched.toString(),
-          ...(user?.id
-            ? { user_id: user.id.toString() }
-            : { guest_id: guestId }),
+          ...(user?.id ? { user_id: user.id.toString() } : { guest_id: guestId }),
         }
 
         console.log('📤 Sending watch history:', payload)
@@ -260,7 +258,7 @@ export function useVideoDetail() {
           payload: {
             video_id: video.value.id.toString(),
             duration_watch: watched.toString(),
-          }
+          },
         })
 
         if (err.code === 'NETWORK_ERROR' || err.code === 'ECONNABORTED') {
@@ -359,22 +357,25 @@ export function useVideoDetail() {
     let watchStartTime = null
     let totalWatchTime = 0
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          isVisible = true
-          watchStartTime = Date.now()
-          console.log('👁️ Video became visible')
-        } else {
-          isVisible = false
-          if (watchStartTime) {
-            totalWatchTime += Date.now() - watchStartTime
-            watchStartTime = null
-            console.log('👁️ Video hidden, total watch time:', totalWatchTime)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            isVisible = true
+            watchStartTime = Date.now()
+            console.log('👁️ Video became visible')
+          } else {
+            isVisible = false
+            if (watchStartTime) {
+              totalWatchTime += Date.now() - watchStartTime
+              watchStartTime = null
+              console.log('👁️ Video hidden, total watch time:', totalWatchTime)
+            }
           }
-        }
-      })
-    }, { threshold: 0.5 })
+        })
+      },
+      { threshold: 0.5 },
+    )
 
     observer.observe(videoPlayer)
 
