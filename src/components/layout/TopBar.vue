@@ -102,8 +102,8 @@
           :class="[
             'px-4 py-1 rounded-full text-sm whitespace-nowrap flex items-center gap-1',
             selectedCategoryId === null
-              ? 'bg-passive text-black font-semibold'
-              : 'bg-secondary text-secondary border border-primary',
+              ? 'bg-white text-gray-900 font-semibold border border-secondary'
+              : 'bg-secondary text-secondary border border-secondary',
           ]"
           @click="selectCategory(null)"
         >
@@ -119,8 +119,8 @@
           :class="[
             'px-4 py-1 rounded-full text-sm whitespace-nowrap flex items-center gap-1',
             selectedCategoryId === kategori.id
-              ? 'bg-passive text-black font-semibold'
-              : 'bg-secondary text-secondary border border-primary',
+              ? 'bg-white text-gray-900 font-semibold border border-secondary'
+              : 'bg-secondary text-secondary border border-secondary',
           ]"
           @click="selectCategory(kategori.id)"
         >

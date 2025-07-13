@@ -20,7 +20,7 @@
         </div>
 
         <div v-if="favoriteStore.favoriteList.length === 0" class="text-primary text-lg mt-4">
-          Tidak ada video ditemukan.
+          Belum ada video yang difavoritkan.
         </div>
 
         <Section
