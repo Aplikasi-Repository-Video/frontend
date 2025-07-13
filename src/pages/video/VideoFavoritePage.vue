@@ -19,11 +19,12 @@
           {{ favoriteStore.errorMessage }}
         </div>
 
-        <div v-if="favoriteStore.favoriteList.length === 0" class="text-primary">
+        <div v-if="favoriteStore.favoriteList.length === 0" class="text-primary text-lg mt-4">
           Tidak ada video ditemukan.
         </div>
 
         <Section
+          v-if="favoriteStore.favoriteList.length > 0"
           title="Video Favorit"
           :videos="favoriteStore.favoriteList"
           :disableLimit="true"

@@ -1,5 +1,5 @@
 <template>
-  <div class="sticky top-0 z-50 backdrop-blur-md dark:bg-primary/80 text-primary pr-0 md:px-0 pt-2">
+  <div class="sticky top-0 z-50 backdrop-blur-md dark:bg-primary/80 text-primary pr-0 md:px-0 pt-2 border-b border-secondary">
     <!-- Header -->
     <div
       class="flex items-center justify-between gap-x-8 md:grid md:grid-cols-3 md:items-center md:gap-4"
@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col gap-2 md:col-span-1">
+      <div class="flex flex-col gap-2 md:col-span-1 mb-2 md:mb-0">
         <div class="w-full max-w-md mx-auto">
           <SearchInput :searchScope="searchScope" @search="emit('search', $event)" />
         </div>
