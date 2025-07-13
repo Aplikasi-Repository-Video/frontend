@@ -1,5 +1,5 @@
 <template>
-  <div class="relative pb-[56.25%] rounded-lg overflow-hidden shadow-lg">
+  <div class="relative pb-[56.25%] rounded-lg overflow-hidden shadow-lg mt-4">
     <video
       v-if="video?.videoUrl"
       :src="video.videoUrl"
