@@ -13,8 +13,11 @@ export const useManageVideoStore = defineStore('manageVideo', {
 
   getters: {
     filteredVideos(state) {
-      if (!state.searchQuery) return state.videoList
-      return state.videoList.filter((v) =>
+      const sorted = [...state.videoList].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+
+      if (!state.searchQuery) return sorted
+
+      return sorted.filter((v) =>
         v.title.toLowerCase().includes(state.searchQuery.toLowerCase()),
       )
     },
@@ -46,6 +49,7 @@ export const useManageVideoStore = defineStore('manageVideo', {
             thumbnail: video.thumbnail_url,
             videoUrl: video.video_url,
             createdAt: video.created,
+            updatedAt: video.updated,
             like: count.Like ?? 0,
             comment: count.Comment ?? 0,
           }

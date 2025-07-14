@@ -53,7 +53,7 @@
                     />
                   </td>
                   <td class="px-4 py-3 font-medium">{{ video.title }}</td>
-                  <td class="px-4 py-3">{{ new Date(video.year).toLocaleDateString() }}</td>
+                  <td class="px-4 py-3">{{ video.year }}</td>
                   <td class="px-4 py-3">{{ video.like }}</td>
                   <td class="px-4 py-3">{{ video.comment }}</td>
                   <td class="px-4 py-3">
@@ -119,7 +119,7 @@
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted  } from 'vue'
 import Topbar from '@/components/layout/TopBar.vue'
 import { useManageVideoStore } from '@/stores/manageVideo'
 import { useRouter } from 'vue-router'
