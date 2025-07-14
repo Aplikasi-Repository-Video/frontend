@@ -11,7 +11,10 @@
         {{ userStore.errorMessage }}
       </div>
 
-      <div v-else class="flex flex-col min-h-[calc(100vh-180px)] justify-between overflow-x-auto ml-2">
+      <div
+        v-else
+        class="flex flex-col min-h-[calc(100vh-180px)] justify-between overflow-x-auto ml-2"
+      >
         <div>
           <table class="min-w-full text-sm text-left text-primary border border-secondary">
             <thead class="bg-passive text-secondary">

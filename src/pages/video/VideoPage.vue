@@ -21,6 +21,10 @@
           {{ videoStore.errorMessage }}
         </div>
 
+        <div v-if="videoStore.videoList.length === 0" class="text-primary text-lg mt-4">
+          Belum ada video.
+        </div>
+
         <template v-if="videoStore.searchQuery || videoStore.videoList.length > 0">
           <Section
             :title="

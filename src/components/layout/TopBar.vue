@@ -1,5 +1,7 @@
 <template>
-  <div class="sticky top-0 z-50 backdrop-blur-md dark:bg-primary/80 text-primary pr-0 md:px-0 pt-2 border-b border-secondary">
+  <div
+    class="sticky top-0 z-50 backdrop-blur-md dark:bg-primary/80 text-primary pr-0 md:px-0 pt-2 border-b border-secondary"
+  >
     <!-- Header -->
     <div
       class="flex items-center justify-between gap-x-8 md:grid md:grid-cols-3 md:items-center md:gap-4"
@@ -191,9 +193,9 @@ const handleLogout = async () => {
     localStorage.removeItem('user')
     Object.keys(localStorage).forEach((key) => {
       if (key.startsWith('watched_')) {
-        localStorage.removeItem(key);
+        localStorage.removeItem(key)
       }
-    });
+    })
 
     window.location.href = '/login'
   } catch (error) {

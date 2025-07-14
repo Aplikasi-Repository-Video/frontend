@@ -19,7 +19,10 @@
           Tidak ada video yang ditemukan.
         </div>
 
-        <div v-else class="flex flex-col overflow-x-auto min-h-[calc(100vh-180px)] justify-between ml-2">
+        <div
+          v-else
+          class="flex flex-col overflow-x-auto min-h-[calc(100vh-180px)] justify-between ml-2"
+        >
           <div>
             <table class="min-w-full text-sm text-left text-primary border border-secondary">
               <thead class="bg-passive text-secondary">
