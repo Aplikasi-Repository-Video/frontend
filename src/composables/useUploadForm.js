@@ -86,7 +86,7 @@ export function useUploadForm({ mode = 'create', initialForm = null, videoId = n
   const handleSubmit = async () => {
     if (!authStore.user?.id) {
       await showInfo('Login Diperlukan', 'Silakan login terlebih dahulu untuk mengupload video.')
-      return router.push('/login') // ⛔ tidak return Promise, menyebabkan `.then()` tidak terpanggil
+      return router.push('/login')
     }
 
     if (
@@ -96,7 +96,7 @@ export function useUploadForm({ mode = 'create', initialForm = null, videoId = n
       (mode === 'create' && (!form.value.video || !form.value.thumbnail))
     ) {
       await showError('Mohon isi semua field.')
-      return Promise.reject('Validation error') // ✅ supaya .catch() bisa nangkep
+      return Promise.reject('Validation error')
     }
 
     if (form.value.video?.size > 100 * 1024 * 1024) {
@@ -165,11 +165,11 @@ export function useUploadForm({ mode = 'create', initialForm = null, videoId = n
       }
 
       toast.success('Video berhasil diupload')
-      return router.push('/admin/videos') // ✅ return biar .then() bisa jalan
+      return router.push('/admin/videos')
     } catch (err) {
       console.error(err)
       toast.error('Terjadi kesalahan saat mengupload video')
-      return Promise.reject(err) // ✅ agar .catch() menangkapnya
+      return Promise.reject(err)
     } finally {
       isLoading.value = false
       isProcessing.value = false

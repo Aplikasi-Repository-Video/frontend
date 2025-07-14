@@ -98,7 +98,7 @@
       </div>
     </div>
 
-    <div class="overflow-x-auto no-scrollbar" v-if="showCategory">
+    <div class="overflow-x-auto no-scrollbar ml-2" v-if="showCategory">
       <div class="flex gap-2 mt-2 pb-3">
         <button
           :class="[
@@ -215,7 +215,7 @@ const handleClickOutside = (event) => {
 onMounted(async () => {
   if (!props.showCategory) return
   try {
-    const res = await axios.get('/categories')
+    const res = await axios.get('/categorios/has-videos')
     kategoriList.value = res.data.data
     await selectCategory(null)
   } catch (error) {

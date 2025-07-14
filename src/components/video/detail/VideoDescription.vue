@@ -1,7 +1,7 @@
 <template>
   <div
     :class="{ 'max-h-40': !isExpanded, 'max-h-full': isExpanded }"
-    class="bg-secondary text-secondary p-4 rounded-lg shadow transition-all duration-300 overflow-hidden"
+    class="bg-secondary text-secondary p-4 rounded-lg shadow transition-all duration-300 overflow-hidden border border-secondary"
   >
     <p
       v-html="isExpanded ? formattedDescription : truncatedDescription"

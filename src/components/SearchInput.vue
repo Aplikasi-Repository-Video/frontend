@@ -12,7 +12,7 @@
         type="text"
         class="rounded-full bg-passive text-primary w-full outline-none"
       />
-      <button @click="handleSearch" class="material-icons text-primary z-20 relative">
+      <button @mousedown="handleSearch" class="material-icons text-primary z-20 relative">
         search
       </button>
     </div>

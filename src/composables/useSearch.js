@@ -13,7 +13,7 @@ export function useSearch() {
     const query = searchQuery.value.trim()
     if (query) {
       addToHistory(query)
-      router.push({ path: '/search', query: { q: query } }) // ⛔️ HAPUS INI
+      router.push({ path: '/videos/search', query: { q: query } })
       showHistory.value = false
     }
   }

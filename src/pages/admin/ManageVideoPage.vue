@@ -9,7 +9,7 @@
         <div class="flex justify-between items-center ml-2 mb-6">
           <h1 class="text-2xl text-primary font-semibold">Kelola Video</h1>
           <RouterLink
-            to="/admin/upload"
+            to="/admin/videos/upload"
             class="bg-green-600 hover:bg-green-700 text-primary px-4 py-2 rounded text-sm mt-4"
           >
             + Upload Video
@@ -119,7 +119,7 @@
   </div>
 </template>
 <script setup>
-import { onMounted  } from 'vue'
+import { onMounted } from 'vue'
 import Topbar from '@/components/layout/TopBar.vue'
 import { useManageVideoStore } from '@/stores/manageVideo'
 import { useRouter } from 'vue-router'

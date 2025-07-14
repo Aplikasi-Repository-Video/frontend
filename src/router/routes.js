@@ -58,7 +58,7 @@ export default [
     component: VideoDetail,
   },
   {
-    path: '/search',
+    path: '/videos/search',
     name: 'Search',
     component: VideosPage,
     props: (route) => ({ searchQuery: route.query.q }),
@@ -94,7 +94,7 @@ export default [
     meta: { middleware: ['auth', 'admin'] },
   },
   {
-    path: '/admin/upload',
+    path: '/admin/videos/upload',
     name: 'UploadVideo',
     component: UploadVideoPage,
     meta: { middleware: ['auth', 'admin'] },

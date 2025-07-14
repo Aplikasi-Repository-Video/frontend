@@ -4,7 +4,7 @@
 
 @layer components {
   .bg-primary {
-    @apply bg-white dark:bg-[#0f0b1d];
+    @apply bg-[#fcfcfc] dark:bg-[#0f0b1d];
   }
 
   .bg-secondary {
@@ -16,7 +16,7 @@
   }
 
   .text-primary {
-    @apply text-gray-900 dark:text-white;
+    @apply text-gray-900 dark:text-[#fcfcfc];
   }
 
   .text-secondary {

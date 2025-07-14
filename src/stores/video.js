@@ -24,7 +24,7 @@ export const useVideoStore = defineStore('video', {
   }),
 
   actions: {
-    async fetchVideos({ keyword = '', reset = false } = {}) {
+    async fetchVideos({ keyword = '', categoryId = null, reset = false } = {}) {
       if (this.isLoading) return
 
       if (reset) {
@@ -35,12 +35,19 @@ export const useVideoStore = defineStore('video', {
 
       this.isLoading = true
       this.errorMessage = ''
+
       try {
-        const res = keyword
-          ? await axios.get('/search', {
-              params: { keyword },
-            })
-          : await axios.get('/videos')
+        let res
+
+        if (keyword) {
+          res = await axios.get('/search', {
+            params: { keyword },
+          })
+        } else if (categoryId) {
+          res = await axios.get(`/videos/category/${categoryId}`)
+        } else {
+          res = await axios.get('/videos')
+        }
 
         const allVideos = res.data.data.map(mapVideo)
 
@@ -63,12 +70,6 @@ export const useVideoStore = defineStore('video', {
 
     updateSearchQuery(query) {
       this.searchQuery = query
-    },
-
-    resetVideos() {
-      this.videoList = []
-      this.page = 1
-      this.hasMore = true
     },
   },
 })

@@ -13,13 +13,13 @@ export const useManageVideoStore = defineStore('manageVideo', {
 
   getters: {
     filteredVideos(state) {
-      const sorted = [...state.videoList].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+      const sorted = [...state.videoList].sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt),
+      )
 
       if (!state.searchQuery) return sorted
 
-      return sorted.filter((v) =>
-        v.title.toLowerCase().includes(state.searchQuery.toLowerCase()),
-      )
+      return sorted.filter((v) => v.title.toLowerCase().includes(state.searchQuery.toLowerCase()))
     },
 
     paginatedVideos(state) {

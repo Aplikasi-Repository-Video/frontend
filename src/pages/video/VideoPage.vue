@@ -21,19 +21,37 @@
           {{ videoStore.errorMessage }}
         </div>
 
-        <div v-if="videoStore.videoList.length === 0" class="text-primary text-lg mt-4">
+        <div
+          v-if="videoStore.videoList.length === 0 && !videoStore.searchQuery"
+          class="text-primary text-lg mt-4"
+        >
           Belum ada video.
         </div>
 
-        <template v-if="videoStore.searchQuery || videoStore.videoList.length > 0">
-          <Section
-            :title="
-              videoStore.searchQuery ? 'Hasil pencarian untuk : ' + videoStore.searchQuery : ''
-            "
-            :videos="videoStore.videoList"
-          />
+        <template
+          v-if="videoStore.searchQuery || videoStore.videoList.length > 0 || videoStore.isLoading"
+        >
+          <template v-if="videoStore.isLoading">
+            <div class="text-primary text-center mt-2">Loading...</div>
+          </template>
 
-          <div v-if="videoStore.isLoading" class="text-primary text-center mt-2">Loading...</div>
+          <template v-else-if="videoStore.videoList.length > 0">
+            <Section
+              :title="
+                videoStore.searchQuery ? 'Hasil pencarian untuk : ' + videoStore.searchQuery : ''
+              "
+              :videos="videoStore.videoList"
+            />
+          </template>
+
+          <template v-else>
+            <div class="text-primary text-center mt-2">
+              Tidak ada video ditemukan
+              <span v-if="videoStore.searchQuery">
+                untuk pencarian "{{ videoStore.searchQuery }}"</span
+              >
+            </div>
+          </template>
         </template>
 
         <template v-else>
@@ -85,14 +103,14 @@ function handleSearch(payload) {
   if (scope !== 'dashboard') return
   if (!query || !query.trim()) return
 
-  router.push({ path: '/search', query: { q: query.trim() } })
+  router.push({ path: '/videos/search', query: { q: query.trim() } })
 }
 
 function handleCategorySelected({ id }) {
   videoStore.updateSearchQuery('')
   videoStore.categoryId = id
 
-  videoStore.fetchVideos({ reset: true })
+  videoStore.fetchVideos({ reset: true, categoryId: id })
 }
 
 onMounted(() => {

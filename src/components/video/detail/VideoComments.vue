@@ -3,7 +3,7 @@
     <div
       v-for="(comment, index) in comments"
       :key="index"
-      class="border border-primary rounded-md p-4 bg-secondary hover:bg-passive transition-colors"
+      class="border border-secondary rounded-md p-4 bg-secondary hover:bg-passive transition-colors"
     >
       <p class="text-primary font-medium mb-1">{{ comment.User.name }}</p>
       <p class="text-secondary">{{ comment.content }}</p>

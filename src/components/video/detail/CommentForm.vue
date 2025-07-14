@@ -5,12 +5,12 @@
       v-model="inputValue"
       placeholder="Tulis komentar..."
       rows="3"
-      class="w-full p-3 rounded bg-secondary text-primary border border-secondary focus:outline-none resize-none"
+      class="w-full p-3 rounded bg-secondary text-primary border border-secondary shadow focus:outline-none resize-none"
     />
     <button
       @click="$emit('post')"
       :disabled="isPosting || !inputValue.trim()"
-      class="mt-3 px-5 py-2 bg-passive hover:bg-secondary text-primary rounded disabled:opacity-50 transition"
+      class="mt-3 px-5 py-2 bg-gray-300 hover:bg-gray-400 border border-black-100 text-black rounded disabled:opacity-50 transition"
     >
       {{ isPosting ? 'Mengirim...' : 'Kirim Komentar' }}
     </button>

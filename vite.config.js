@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-// import vueDevTools from 'vite-plugin-vue-devtools'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 const ngrokHost = '9a809d3f7d4c.ngrok-free.app'
 
@@ -11,7 +11,7 @@ const ngrokHost = '9a809d3f7d4c.ngrok-free.app'
 export default defineConfig({
   plugins: [
     vue(),
-    // vueDevTools(),
+    vueDevTools(),
   ],
   resolve: {
     alias: {
