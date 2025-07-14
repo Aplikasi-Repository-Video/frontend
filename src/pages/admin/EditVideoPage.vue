@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-primary text-primary p-6">
+  <div class="min-h-screen bg-primary text-primary ml-2 p-6">
     <h1 class="text-2xl font-bold mb-6">Edit Video</h1>
 
     <div v-if="loading">

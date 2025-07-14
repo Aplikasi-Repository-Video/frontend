@@ -1,10 +1,8 @@
 <template>
   <div class="min-h-screen bg-primary text-primary p-6">
-    <!-- Header with Settings -->
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex justify-between items-center ml-2 mb-6">
       <h1 class="text-3xl font-bold">Dashboard Admin</h1>
 
-      <!-- Settings Dropdown -->
       <div class="relative">
         <button
           @click="toggleSettingsDropdown"
@@ -86,16 +84,14 @@
       </div>
     </div>
 
-    <!-- Chart Visualisasi -->
-    <div class="bg-primary p-6 rounded-2xl shadow-md mb-10">
+    <div class="bg-primary ml-2 p-6 rounded-2xl shadow-md mb-10">
       <h2 class="text-xl text-primary font-semibold mb-4">Statistik Data</h2>
       <div class="h-[300px] text-primary">
         <BarChart :chart-data="chartData" />
       </div>
     </div>
 
-    <!-- Kartu Ringkasan -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <div class="grid grid-cols-1 ml-2 md:grid-cols-3 gap-6 mb-10">
       <div class="bg-primary p-6 rounded-2xl shadow-md flex flex-col justify-between">
         <div>
           <h2 class="text-lg font-semibold mb-2">Total Pengguna</h2>

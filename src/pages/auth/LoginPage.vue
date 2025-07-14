@@ -1,11 +1,9 @@
 <template>
   <div class="min-h-screen flex">
-    <!-- Left Side - Hero Section -->
     <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700"></div>
       <div class="absolute inset-0 bg-black bg-opacity-20"></div>
 
-      <!-- Animated Background Elements -->
       <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-white bg-opacity-10 rounded-full blur-3xl animate-pulse"></div>
       <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-400 bg-opacity-10 rounded-full blur-3xl animate-pulse delay-1000"></div>
 
@@ -25,7 +23,6 @@
           </p>
         </div>
 
-        <!-- Statistics -->
         <div class="grid grid-cols-2 gap-6 w-full max-w-sm">
           <div class="text-center">
             <div class="text-3xl font-bold text-yellow-400">50K+</div>
@@ -39,10 +36,8 @@
       </div>
     </div>
 
-    <!-- Right Side - Login Form -->
     <div class="w-full lg:w-1/2 flex items-center justify-center bg-gradient-to-br from-slate-100 via-purple-100 to-slate-100 p-8">
       <div class="w-full max-w-md">
-        <!-- Header -->
         <div class="text-center mb-8">
           <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl mb-4">
             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,9 +48,7 @@
           <p class="text-gray-600">Mulai pembelajaran Anda hari ini</p>
         </div>
 
-        <!-- Login Form -->
         <form @submit.prevent="handleLogin" class="space-y-6">
-          <!-- Email Field -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-gray-700">Email Address</label>
             <div class="relative">
@@ -68,13 +61,15 @@
                 v-model="email"
                 type="email"
                 placeholder="name@example.com"
+                autocomplete="email"
                 class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 bg-white"
+                :class="{ 'border-red-300': emailError }"
                 required
               />
             </div>
+            <p v-if="emailError" class="text-red-500 text-sm">{{ emailError }}</p>
           </div>
 
-          <!-- Password Field -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-gray-700">Password</label>
             <div class="relative">
@@ -87,7 +82,9 @@
                 v-model="password"
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Enter your password"
+                autocomplete="current-password"
                 class="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 bg-white"
+                :class="{ 'border-red-300': passwordError }"
                 required
               />
               <button
@@ -98,9 +95,9 @@
                 <component :is="showPassword ? EyeOff : Eye" class="w-5 h-5" />
               </button>
             </div>
+            <p v-if="passwordError" class="text-red-500 text-sm">{{ passwordError }}</p>
           </div>
 
-          <!-- Remember Me & Forgot Password -->
           <div class="flex items-center justify-between">
             <div class="flex items-center">
               <input
@@ -113,21 +110,31 @@
                 Remember me
               </label>
             </div>
-            <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500 font-medium">
-              Forgot password?
-            </a>
           </div>
 
-          <!-- Login Button -->
           <button
             type="submit"
-            class="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition duration-200"
+            :disabled="!isFormValid || isLoading"
+            class="w-full py-3 px-4 font-semibold rounded-xl shadow-lg transition duration-200 flex items-center justify-center"
+            :class="[
+              isFormValid && !isLoading
+                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white hover:shadow-xl transform hover:scale-[1.02]'
+                : 'bg-gray-400 text-gray-600 cursor-not-allowed'
+            ]"
           >
-            Sign In
+            <template v-if="isLoading">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Signing In...
+            </template>
+            <template v-else>
+              Sign In
+            </template>
           </button>
         </form>
 
-        <!-- Sign Up Link -->
         <p class="mt-8 text-center text-sm text-gray-600">
           Don't have an account?
           <a href="/register" class="font-semibold text-indigo-600 hover:text-indigo-500 transition">
@@ -140,7 +147,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from '@/services/axios'
 import { jwtDecode } from 'jwt-decode'
@@ -151,12 +158,43 @@ import { Eye, EyeOff } from 'lucide-vue-next'
 const email = ref('')
 const password = ref('')
 const showPassword = ref(false)
+const isLoading = ref(false)
+const emailError = ref('')
+const passwordError = ref('')
 
 const router = useRouter()
 const toast = useToast()
 const auth = useAuthStore()
 
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+const isFormValid = computed(() =>
+  email.value.trim() !== '' &&
+  password.value.trim() !== '' &&
+  isValidEmail(email.value) &&
+  password.value.length >= 1
+)
+
+watch(email, (newEmail) => {
+  emailError.value = newEmail && !isValidEmail(newEmail)
+    ? 'Please enter a valid email address'
+    : ''
+})
+
+watch(password, (newPassword) => {
+  passwordError.value = newPassword && newPassword.length < 1
+    ? 'Password is required'
+    : ''
+})
+
 const handleLogin = async () => {
+  if (isLoading.value || !isFormValid.value) return
+
+  isLoading.value = true
+
   try {
     const res = await axios.post('/login', {
       email: email.value,
@@ -164,24 +202,46 @@ const handleLogin = async () => {
     })
 
     const { token } = res.data
-
     localStorage.setItem('token', token)
+
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith('watched_')) {
+        localStorage.removeItem(key)
+      }
+    })
 
     const decoded = jwtDecode(token)
     auth.setUser(decoded)
 
-    toast.success(`Selamat datang`)
+    toast.success(`Selamat datang di EduVid`)
 
-    if (decoded.role === 'ADMIN') {
-      router.push('/admin/videos')
-    } else {
-      router.push('/videos')
-    }
+    router.push(decoded.role === 'ADMIN' ? '/admin/dashboard' : '/videos')
   } catch (err) {
-    const message = err.response?.data?.message || 'Terjadi kesalahan saat login'
-    toast.error(`Login gagal: ${message}`)
+    const message =
+      err?.response?.data?.message ||
+      err?.message ||
+      'Terjadi kesalahan saat login'
+
+      toast.error(`Login gagal: ${message}`)
+
+    if (err?.response?.status === 401) {
+      emailError.value = 'Email atau password salah'
+      passwordError.value = 'Email atau password salah'
+    } else {
+      emailError.value = ''
+      passwordError.value = ''
+    }
+  } finally {
+    isLoading.value = false
   }
 }
+
+window.addEventListener('error', (e) => {
+  console.error('🌐 Global JS error:', e.message, e)
+})
+window.addEventListener('unhandledrejection', (e) => {
+  console.error('🌐 Unhandled Promise Rejection:', e.reason)
+})
 </script>
 
 <style scoped>

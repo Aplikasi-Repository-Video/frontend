@@ -5,7 +5,7 @@
       class="flex items-center justify-between gap-x-8 md:grid md:grid-cols-3 md:items-center md:gap-4"
     >
       <div class="hidden md:block">
-        <div class="flex items-center gap-2 text-2xl font-bold mt-3 ml-1.5 mb-2">
+        <div class="flex items-center gap-2 text-2xl font-bold mt-3 ml-1.5 mb-4">
           <img src="../../assets/logo.png" alt="Logo" class="w-8 h-8" />
           <span>EduVid</span>
         </div>
@@ -189,6 +189,11 @@ const handleLogout = async () => {
 
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith('watched_')) {
+        localStorage.removeItem(key);
+      }
+    });
 
     window.location.href = '/login'
   } catch (error) {

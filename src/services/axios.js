@@ -5,7 +5,6 @@ const axiosInstance = axios.create({
   withCredentials: true,
 })
 
-// Tambahkan token ke header Authorization
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
   if (token) {
@@ -14,13 +13,11 @@ axiosInstance.interceptors.request.use((config) => {
   return config
 })
 
-// Optional: auto logout kalau token expired / invalid
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token')
-      window.location.href = '/login'
     }
     return Promise.reject(error)
   },

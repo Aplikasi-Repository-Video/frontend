@@ -1,7 +1,7 @@
 <template>
   <aside
     :class="[
-      'fixed top-0 left-0 h-screen bg-primary text-primary p-4 transition-all duration-300 z-50',
+      'fixed top-0 left-0 h-screen bg-primary text-primary p-4 transition-all duration-300 z-50 border-r border-secondary shadow-lg',
       isOpen ? 'w-64' : 'w-16',
     ]"
     style="box-sizing: border-box"

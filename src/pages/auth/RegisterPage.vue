@@ -1,11 +1,9 @@
 <template>
   <div class="min-h-screen flex">
-    <!-- Left Side - Hero Section -->
     <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700"></div>
       <div class="absolute inset-0 bg-black bg-opacity-20"></div>
 
-      <!-- Animated Background Elements -->
       <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-white bg-opacity-10 rounded-full blur-3xl animate-pulse"></div>
       <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-400 bg-opacity-10 rounded-full blur-3xl animate-pulse delay-1000"></div>
 
@@ -25,7 +23,6 @@
           </p>
         </div>
 
-        <!-- Features List -->
         <div class="space-y-4 w-full max-w-sm">
           <div class="flex items-center space-x-3">
             <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
@@ -55,10 +52,8 @@
       </div>
     </div>
 
-    <!-- Right Side - Register Form -->
     <div class="w-full lg:w-1/2 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-8">
       <div class="w-full max-w-md">
-        <!-- Header -->
         <div class="text-center mb-8">
           <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl mb-4">
             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,9 +64,7 @@
           <p class="text-gray-600">Mulai perjalanan belajar Anda sekarang</p>
         </div>
 
-        <!-- Register Form -->
         <form @submit.prevent="handleSubmit" class="space-y-5">
-          <!-- Name Field -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-gray-700">Nama Lengkap</label>
             <div class="relative">
@@ -90,7 +83,6 @@
             </div>
           </div>
 
-          <!-- Email Field -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-gray-700">Email Address</label>
             <div class="relative">
@@ -109,7 +101,6 @@
             </div>
           </div>
 
-          <!-- Password Field -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-gray-700">Password</label>
             <div class="relative">
@@ -146,7 +137,6 @@
             </p>
           </div>
 
-          <!-- Confirm Password Field -->
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-gray-700">Konfirmasi Password</label>
             <div class="relative">
@@ -191,7 +181,6 @@
             </p>
           </div>
 
-          <!-- Register Button -->
           <button
             type="submit"
             :disabled="isFormInvalid"
@@ -213,7 +202,6 @@
           </button>
         </form>
 
-        <!-- Sign In Link -->
         <p class="mt-8 text-center text-sm text-gray-600">
           Already have an account?
           <a href="/login" class="font-semibold text-emerald-600 hover:text-emerald-500 transition">
@@ -289,7 +277,7 @@ const handleSubmit = async () => {
       router.push('/login')
     }, 1500)
   } catch (err) {
-    const message = err.response?.data?.message || 'Terjadi kesalahan saat mendaftar'
+    const message = err.response?.data?.error || 'Terjadi kesalahan saat mendaftar'
     toast.error(`Registrasi gagal: ${message}`)
   } finally {
     isSubmitting.value = false

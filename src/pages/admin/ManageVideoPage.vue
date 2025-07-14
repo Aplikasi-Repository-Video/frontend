@@ -1,16 +1,16 @@
 <template>
   <div class="flex h-screen overflow-hidden">
-    <main class="flex-1 bg-primary overflow-y-auto px-6 pb-6">
+    <main class="flex-1 bg-primary px-6 pb-6">
       <Topbar :showCategory="false" :searchScope="'manage'" @search="handleSearch" />
 
       <div v-if="store.isLoading" class="text-primary">Memuat data video...</div>
 
       <div v-else>
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex justify-between items-center ml-2 mb-6">
           <h1 class="text-2xl text-primary font-semibold">Kelola Video</h1>
           <RouterLink
             to="/admin/upload"
-            class="bg-green-600 hover:bg-green-700 text-primary px-4 py-2 rounded text-sm"
+            class="bg-green-600 hover:bg-green-700 text-primary px-4 py-2 rounded text-sm mt-4"
           >
             + Upload Video
           </RouterLink>
@@ -19,7 +19,7 @@
           Tidak ada video yang ditemukan.
         </div>
 
-        <div v-else class="flex flex-col overflow-x-auto min-h-[calc(100vh-180px)] justify-between">
+        <div v-else class="flex flex-col overflow-x-auto min-h-[calc(100vh-180px)] justify-between ml-2">
           <div>
             <table class="min-w-full text-sm text-left text-primary border border-secondary">
               <thead class="bg-passive text-secondary">
@@ -76,7 +76,6 @@
           <div
             class="mt-6 flex justify-center items-center gap-2 text-primary text-sm sm:text-base"
           >
-            <!-- First Page -->
             <button
               class="bg-muted px-3 py-1 rounded disabled:opacity-50"
               :disabled="store.page === 1"
@@ -85,7 +84,6 @@
               ⇤ First
             </button>
 
-            <!-- Previous Page -->
             <button
               class="bg-muted px-3 py-1 rounded disabled:opacity-50"
               :disabled="store.page === 1"
@@ -94,10 +92,8 @@
               ← Sebelumnya
             </button>
 
-            <!-- Page Info -->
             <span>Halaman {{ store.page }} dari {{ store.totalPages }}</span>
 
-            <!-- Next Page -->
             <button
               class="bg-muted px-3 py-1 rounded disabled:opacity-50"
               :disabled="store.page === store.totalPages"
@@ -106,7 +102,6 @@
               Selanjutnya →
             </button>
 
-            <!-- Last Page -->
             <button
               class="bg-muted px-3 py-1 rounded disabled:opacity-50"
               :disabled="store.page === store.totalPages"

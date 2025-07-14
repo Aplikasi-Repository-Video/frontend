@@ -3,7 +3,7 @@
     <main class="flex-1 bg-primary overflow-y-auto px-6 pb-6">
       <Topbar :showCategory="false" :searchScope="'manage-user'" @search="handleSearch" />
 
-      <h1 class="text-2xl text-primary font-semibold mb-6">Kelola User</h1>
+      <h1 class="text-2xl text-primary font-semibold ml-2 mt-2.5 mb-6">Kelola User</h1>
 
       <div v-if="userStore.isLoading" class="text-primary">Loading users...</div>
 
@@ -11,7 +11,7 @@
         {{ userStore.errorMessage }}
       </div>
 
-      <div v-else class="flex flex-col min-h-[calc(100vh-180px)] justify-between overflow-x-auto">
+      <div v-else class="flex flex-col min-h-[calc(100vh-180px)] justify-between overflow-x-auto ml-2">
         <div>
           <table class="min-w-full text-sm text-left text-primary border border-secondary">
             <thead class="bg-passive text-secondary">
@@ -174,13 +174,11 @@ async function handleStatusChange(userId, newStatus) {
         toast.success('Status user berhasil diubah')
       }
     } else {
-      // Revert the change if user cancels
       await userStore.fetchUsers()
     }
   } catch (err) {
     console.error(err)
     toast.error('Terjadi kesalahan saat mengubah status')
-    // Revert the change on error
     await userStore.fetchUsers()
   }
 }

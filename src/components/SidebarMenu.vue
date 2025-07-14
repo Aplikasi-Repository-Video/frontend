@@ -76,8 +76,14 @@ const confirmLogout = async () => {
   })
 
   if (result.isConfirmed) {
-    localStorage.removeItem('token')
-    router.push('/login')
+    localStorage.removeItem('token');
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith('watched_')) {
+        localStorage.removeItem(key);
+      }
+    });
+
+    router.push('/login');
   }
 }
 

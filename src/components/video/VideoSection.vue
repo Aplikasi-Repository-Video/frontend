@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-6">
+  <div class="mb-6 ml-4 mt-2">
     <h2 class="text-primary font-bold mb-2">{{ title }}</h2>
 
     <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

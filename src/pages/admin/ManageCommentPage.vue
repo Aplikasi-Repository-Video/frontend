@@ -1,9 +1,9 @@
 <template>
   <div class="flex h-screen overflow-hidden">
-    <main class="flex-1 bg-primary overflow-y-auto px-6 pb-6">
+    <main class="flex-1 bg-primary px-6 pb-6">
       <Topbar :showCategory="false" :searchScope="'manage-comment'" @search="handleSearch" />
 
-      <h1 class="text-2xl text-primary font-semibold mb-6">Kelola Komentar</h1>
+      <h1 class="text-2xl text-primary font-semibold ml-2 mt-2.5 mb-6">Kelola Komentar</h1>
 
       <div v-if="commentStore.isLoading" class="text-primary">Memuat komentar...</div>
 
@@ -11,7 +11,7 @@
         {{ commentStore.errorMessage }}
       </div>
 
-      <div v-else class="flex flex-col flex-grow min-h-[calc(100vh-150px)] justify-between">
+      <div v-else class="flex flex-col flex-grow min-h-[calc(100vh-150px)] justify-between ml-2">
         <div class="overflow-x-auto flex-1">
           <table class="min-w-full text-sm text-left text-primary border border-secondary">
             <thead class="bg-passive text-secondary">
@@ -51,7 +51,6 @@
         </div>
 
         <div class="mt-6 flex justify-center items-center gap-2 text-primary text-sm sm:text-base">
-          <!-- First Page -->
           <button
             class="bg-muted px-3 py-1 rounded disabled:opacity-50"
             :disabled="commentStore.page === 1"
@@ -60,7 +59,6 @@
             ⇤ First
           </button>
 
-          <!-- Previous Page -->
           <button
             class="bg-muted px-3 py-1 rounded disabled:opacity-50"
             :disabled="commentStore.page === 1"
@@ -69,10 +67,8 @@
             ← Sebelumnya
           </button>
 
-          <!-- Page Info -->
           <span>Halaman {{ commentStore.page }} dari {{ commentStore.totalPages }}</span>
 
-          <!-- Next Page -->
           <button
             class="bg-muted px-3 py-1 rounded disabled:opacity-50"
             :disabled="commentStore.page === commentStore.totalPages"
@@ -81,7 +77,6 @@
             Selanjutnya →
           </button>
 
-          <!-- Last Page -->
           <button
             class="bg-muted px-3 py-1 rounded disabled:opacity-50"
             :disabled="commentStore.page === commentStore.totalPages"
