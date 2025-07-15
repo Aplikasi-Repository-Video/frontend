@@ -8,10 +8,12 @@
       <Topbar
         :showCategory="true"
         :searchScope="'dashboard'"
+        :class="'ml-2'"
         @search="handleSearch"
         @categorySelected="handleCategorySelected"
       />
 
+      <!-- Loading awal saat belum ada video -->
       <div v-if="videoStore.isLoading && videoStore.videoList.length === 0" class="text-primary">
         Loading video...
       </div>
@@ -28,28 +30,26 @@
           Belum ada video.
         </div>
 
-        <template
-          v-if="videoStore.searchQuery || videoStore.videoList.length > 0 || videoStore.isLoading"
-        >
-          <template v-if="videoStore.isLoading">
-            <div class="text-primary text-center mt-2">Loading...</div>
-          </template>
-
-          <template v-else-if="videoStore.videoList.length > 0">
+        <template v-if="videoStore.searchQuery || videoStore.videoList.length > 0">
+          <template v-if="videoStore.videoList.length > 0">
             <Section
               :title="
                 videoStore.searchQuery ? 'Hasil pencarian untuk : ' + videoStore.searchQuery : ''
               "
               :videos="videoStore.videoList"
             />
+
+            <div v-if="videoStore.isLoading" class="text-primary text-center mt-4">
+              Memuat lebih banyak...
+            </div>
           </template>
 
-          <template v-else>
+          <template v-else-if="!videoStore.isLoading">
             <div class="text-primary text-center mt-2">
               Tidak ada video ditemukan
               <span v-if="videoStore.searchQuery">
-                untuk pencarian "{{ videoStore.searchQuery }}"</span
-              >
+                untuk pencarian "{{ videoStore.searchQuery }}"
+              </span>
             </div>
           </template>
         </template>

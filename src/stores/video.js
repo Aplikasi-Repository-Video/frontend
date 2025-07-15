@@ -31,6 +31,7 @@ export const useVideoStore = defineStore('video', {
         this.page = 1
         this.videoList = []
         this.hasMore = true
+        this.activeCategoryId = categoryId ?? null
       }
 
       this.isLoading = true
@@ -38,13 +39,14 @@ export const useVideoStore = defineStore('video', {
 
       try {
         let res
+        const finalCategoryId = categoryId ?? this.activeCategoryId
 
         if (keyword) {
           res = await axios.get('/search', {
             params: { keyword },
           })
-        } else if (categoryId) {
-          res = await axios.get(`/videos/category/${categoryId}`)
+        } else if (finalCategoryId) {
+          res = await axios.get(`/videos/category/${finalCategoryId}`)
         } else {
           res = await axios.get('/videos')
         }

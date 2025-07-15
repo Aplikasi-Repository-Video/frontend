@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen overflow-hidden bg-primary text-primary">
+  <div class="flex h-screen overflow-hidden bg-primary text-primary ml-4">
     <main class="flex-1 bg-primary overflow-y-auto px-6 pb-10">
       <Topbar :showCategory="false" :searchScope="'dashboard'" @search="handleSearch" />
 

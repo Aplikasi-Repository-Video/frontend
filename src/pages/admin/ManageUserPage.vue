@@ -1,7 +1,12 @@
 <template>
   <div class="flex h-screen overflow-hidden">
     <main class="flex-1 bg-primary overflow-y-auto px-6 pb-6">
-      <Topbar :showCategory="false" :searchScope="'manage-user'" @search="handleSearch" />
+      <Topbar
+        :showCategory="false"
+        :searchScope="'manage-user'"
+        :class="'ml-2'"
+        @search="handleSearch"
+      />
 
       <h1 class="text-2xl text-primary font-semibold ml-2 mt-2.5 mb-6">Kelola User</h1>
 

@@ -1,7 +1,12 @@
 <template>
   <div class="flex h-screen overflow-hidden">
-    <main class="flex-1 bg-primary px-6 pb-6">
-      <Topbar :showCategory="false" :searchScope="'manage'" @search="handleSearch" />
+    <main class="flex-1 bg-primary overflow-y-auto px-6 pb-6">
+      <Topbar
+        :showCategory="false"
+        :searchScope="'manage'"
+        :class="'ml-2'"
+        @search="handleSearch"
+      />
 
       <div v-if="store.isLoading" class="text-primary">Memuat data video...</div>
 

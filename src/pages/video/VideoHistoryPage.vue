@@ -5,7 +5,12 @@
       class="flex-1 bg-primary overflow-y-auto no-scrollbar px-6 pb-6"
       @scroll.passive="handleScroll"
     >
-      <Topbar :showCategory="false" :searchScope="'history'" @search="handleSearch" />
+      <Topbar
+        :showCategory="false"
+        :searchScope="'history'"
+        :class="'ml-2'"
+        @search="handleSearch"
+      />
 
       <div
         v-if="historyStore.isLoading && historyStore.videoList.length === 0"

@@ -27,3 +27,45 @@
     @apply border-gray-200 dark:border-gray-700;
   }
 }
+
+/* 🚨 Pindahkan ke luar @layer */
+@media (max-width: 640px) {
+  .Vue-Toastification__toast-body {
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .Vue-Toastification__toast {
+    padding: 0.5rem 1rem !important;
+    max-width: 90vw !important;
+  }
+
+  .swal2-popup {
+    width: 90vw !important;
+    max-width: 90vw !important;
+    padding: 1rem 1rem !important;
+    font-size: 0.8rem !important;
+    border-radius: 0.5rem !important;
+  }
+
+  .swal2-title {
+    font-size: 1rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .swal2-html-container {
+    font-size: 0.875rem !important;
+  }
+
+  .swal2-actions {
+    margin-top: 1rem !important;
+  }
+
+  .swal2-confirm,
+  .swal2-cancel {
+    font-size: 0.75rem !important;
+    padding: 0.4rem 0.75rem !important;
+  }
+}

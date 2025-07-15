@@ -2,7 +2,6 @@
   <div
     class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden"
   >
-    <!-- Background Elements -->
     <div class="absolute inset-0 overflow-hidden">
       <div
         class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"
@@ -15,7 +14,6 @@
       ></div>
     </div>
 
-    <!-- Navigation -->
     <nav class="relative z-10 flex justify-between items-center px-6 lg:px-12 py-6">
       <div class="flex items-center space-x-3">
         <img src="../assets/logo.png" alt="Logo" class="w-10 h-10" />
@@ -32,9 +30,7 @@
       </div>
     </nav>
 
-    <!-- Hero Section -->
     <div class="relative z-10 flex flex-col items-center justify-center text-center px-6 py-20">
-      <!-- Badge -->
       <div
         class="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 backdrop-blur-sm mb-8"
       >
@@ -42,7 +38,6 @@
         <span class="text-sm font-medium text-purple-300">Mulai Harimu dengan Inspirasi</span>
       </div>
 
-      <!-- Main Heading -->
       <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
         Belajar Tanpa
         <span
@@ -61,7 +56,6 @@
         di mana saja dengan cara yang menyenangkan.
       </p>
 
-      <!-- CTA Buttons -->
       <div class="flex flex-col sm:flex-row gap-4 mb-16">
         <a
           href="/videos"
@@ -86,14 +80,12 @@
         </a>
       </div>
 
-      <!-- Video Preview -->
       <div class="relative max-w-4xl mx-auto">
         <div
           class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300"
         >
           <img src="../assets/test.jpg" alt="Video Preview" class="w-full h-auto" />
 
-          <!-- Video Overlay -->
           <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
             <button
               class="group w-20 h-20 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-300 shadow-xl"
@@ -108,7 +100,6 @@
             </button>
           </div>
 
-          <!-- Floating Stats -->
           <div
             class="absolute top-4 left-4 bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20"
           >
@@ -134,7 +125,6 @@
       </div>
     </div>
 
-    <!-- Features Section -->
     <div class="relative z-10 py-20 px-6">
       <div class="max-w-6xl mx-auto">
         <h2 class="text-4xl font-bold text-center mb-16">
@@ -213,7 +203,6 @@
       </div>
     </div>
 
-    <!-- Stats Section -->
     <div class="relative z-10 py-20 px-6">
       <div class="max-w-4xl mx-auto text-center">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -255,10 +244,22 @@
   </div>
 </template>
 
-//
+<script setup>
+import { onMounted } from 'vue'
+// import { useTheme } from '@/composables/useTheme'
 
-<script setup></script>
+// const { initTheme } = useTheme()
 
+const initDefaultTheme = () => {
+  if (!localStorage.getItem('theme')) {
+    localStorage.setItem('theme', 'light')
+  }
+  // initTheme()
+}
+onMounted(() => {
+  initDefaultTheme()
+})
+</script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 

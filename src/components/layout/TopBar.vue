@@ -13,13 +13,13 @@
         </div>
       </div>
 
-      <div class="flex flex-col gap-2 md:col-span-1 mb-2 md:mb-0">
+      <div class="flex flex-col gap-2 md:col-span-1 mt-3 mb-4">
         <div class="w-full max-w-md mx-auto">
           <SearchInput :searchScope="searchScope" @search="emit('search', $event)" />
         </div>
       </div>
 
-      <div class="flex-shrink-0 flex items-center gap-4 justify-end md:col-span-1">
+      <div class="flex-shrink-0 flex items-center gap-4 justify-end md:col-span-1 mt-3 mb-4">
         <div class="relative">
           <button
             @click="toggleSettingsDropdown"
@@ -99,7 +99,7 @@
     </div>
 
     <div class="overflow-x-auto no-scrollbar ml-2" v-if="showCategory">
-      <div class="flex gap-2 mt-2 pb-3">
+      <div class="flex gap-2 items-center mt-2 pb-3">
         <button
           :class="[
             'px-4 py-1 rounded-full text-sm whitespace-nowrap flex items-center gap-1',
@@ -115,22 +115,21 @@
           >
         </button>
 
-        <button
-          v-for="kategori in kategoriList"
-          :key="kategori.id"
-          :class="[
-            'px-4 py-1 rounded-full text-sm whitespace-nowrap flex items-center gap-1',
-            selectedCategoryId === kategori.id
-              ? 'bg-white text-gray-900 font-semibold border border-secondary'
-              : 'bg-secondary text-secondary border border-secondary',
-          ]"
-          @click="selectCategory(kategori.id)"
+        <select
+          v-model="selectedCategoryId"
+          @change="selectCategory(selectedCategoryId)"
+          class="px-4 py-1 rounded-full text-sm border border-secondary bg-white text-gray-900 font-medium appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          {{ kategori.name }}
-          <span v-if="isLoading && selectedCategoryId === kategori.id" class="text-xs animate-spin"
-            >⏳</span
-          >
-        </button>
+          <option value="" disabled class="text-gray-500 italic">Pilih Kategori</option>
+          <option v-for="kategori in kategoriList" :key="kategori.id" :value="kategori.id" class="text-gray-900">
+            {{ kategori.name }}
+          </option>
+        </select>
+
+        <!-- Spinner saat loading kategori -->
+        <span v-if="isLoading && selectedCategoryId !== null" class="text-xs animate-spin">
+          ⏳
+        </span>
       </div>
     </div>
   </div>
@@ -162,7 +161,8 @@ const emit = defineEmits(['search', 'categorySelected'])
 const instance = getCurrentInstance()
 
 const kategoriList = ref([])
-const selectedCategoryId = ref(null)
+// PERBAIKAN: Inisialisasi dengan empty string, bukan null
+const selectedCategoryId = ref('')
 
 function safeEmit(eventName, payload) {
   const listeners = instance?.vnode?.props || {}
@@ -217,6 +217,7 @@ onMounted(async () => {
   try {
     const res = await axios.get('/categorios/has-videos')
     kategoriList.value = res.data.data
+    // PERBAIKAN: Panggil selectCategory dengan null untuk "Semua"
     await selectCategory(null)
   } catch (error) {
     console.error('Gagal mengambil kategori:', error)
@@ -230,7 +231,14 @@ onUnmounted(() => {
 })
 
 const selectCategory = async (id) => {
-  selectedCategoryId.value = id
+  // PERBAIKAN: Jika id adalah null (tombol "Semua"), set selectedCategoryId ke empty string
+  // untuk menampilkan placeholder
+  if (id === null) {
+    selectedCategoryId.value = ''
+  } else {
+    selectedCategoryId.value = id
+  }
+
   isLoading.value = true
   try {
     safeEmit('categorySelected', { id })
@@ -253,5 +261,18 @@ const selectCategory = async (id) => {
 
 .hover\:bg-secondary:hover {
   @apply bg-gray-100 dark:bg-gray-700;
+}
+
+/* Custom styling untuk select placeholder */
+select:invalid {
+  color: #9ca3af; /* gray-400 */
+}
+
+select option {
+  color: #111827; /* gray-900 */
+}
+
+select option:disabled {
+  color: #9ca3af; /* gray-400 */
 }
 </style>

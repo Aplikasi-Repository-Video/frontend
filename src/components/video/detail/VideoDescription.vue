@@ -1,12 +1,16 @@
 <template>
-  <div
-    :class="{ 'max-h-40': !isExpanded, 'max-h-full': isExpanded }"
-    class="bg-secondary text-secondary p-4 rounded-lg shadow transition-all duration-300 overflow-hidden border border-secondary"
-  >
-    <p
-      v-html="isExpanded ? formattedDescription : truncatedDescription"
-      class="text-primary leading-relaxed"
-    />
+  <div class="bg-secondary text-secondary p-4 rounded-lg shadow border border-secondary">
+    <div
+      ref="descriptionRef"
+      :style="{ maxHeight: isExpanded ? contentHeight + 'px' : '160px' }"
+      class="transition-all duration-500 overflow-hidden"
+    >
+      <div
+        ref="contentRef"
+        v-html="formattedDescription"
+        class="text-primary leading-relaxed"
+      ></div>
+    </div>
 
     <button
       v-if="shouldShowToggle"
@@ -19,17 +23,23 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import linkifyHtml from 'linkify-html'
 
 const props = defineProps({
   description: String,
-  createdAt: String,
 })
 
 const isExpanded = ref(false)
-const toggleDescription = () => {
+const contentHeight = ref(0)
+
+const descriptionRef = ref(null)
+const contentRef = ref(null)
+
+const toggleDescription = async () => {
   isExpanded.value = !isExpanded.value
+  await nextTick()
+  contentHeight.value = contentRef.value?.scrollHeight ?? 0
 }
 
 const formatDescription = (text) => {
@@ -42,10 +52,12 @@ const formatDescription = (text) => {
 }
 
 const formattedDescription = computed(() => formatDescription(props.description))
-const truncatedDescription = computed(() => {
-  const shortText = props.description?.substring(0, 240) ?? ''
-  return formatDescription(shortText) + '...'
+
+const shouldShowToggle = computed(() => {
+  return (props.description?.length ?? 0) > 240
 })
 
-const shouldShowToggle = computed(() => props.description?.length > 240)
+onMounted(() => {
+  contentHeight.value = contentRef.value?.scrollHeight ?? 0
+})
 </script>
