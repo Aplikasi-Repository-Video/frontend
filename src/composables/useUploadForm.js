@@ -2,11 +2,12 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUploadVideoStore } from '@/stores/uploadVideo'
 import { useAuthStore } from '@/stores/auth'
-import { getVideoDuration } from '@/utils/getVideoDuration'
 import { useToast } from 'vue-toastification'
 import Swal from 'sweetalert2'
 import axios from '@/services/axios'
 import axiosRaw from 'axios'
+
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME
 
 export function useUploadForm({ mode = 'create', initialForm = null, videoId = null } = {}) {
   const router = useRouter()
@@ -28,6 +29,9 @@ export function useUploadForm({ mode = 'create', initialForm = null, videoId = n
   const isLoading = ref(false)
   const uploadProgress = ref(0)
   const isProcessing = ref(false)
+
+  const videoProgress = ref(0)
+  const thumbProgress = ref(0)
 
   if (initialForm) {
     form.value = {
@@ -105,67 +109,45 @@ export function useUploadForm({ mode = 'create', initialForm = null, videoId = n
     }
 
     isLoading.value = true
-    uploadProgress.value = 0
-    isProcessing.value = true
+    uploadProgress.value = 0;
+    videoProgress.value = 0;
+    thumbProgress.value = 0;
+    isProcessing.value = true;
 
     try {
-      const duration = form.value.video
-        ? await getVideoDuration(form.value.video)
-        : initialForm?.duration
-      let videoProgress = 0
-      let thumbProgress = 0
+      const thumbSigResponse = await axios.post('/cloudinary/generate-upload-signature', { type: 'image' });
+      const thumbUrl = await uploadWithSignature(
+        form.value.thumbnail,
+        'image',
+        thumbSigResponse.data.signature, // Kirim seluruh objek data
+        (p) => {
+          thumbProgress.value = p;
+          uploadProgress.value = Math.round((videoProgress.value + thumbProgress.value) / 2);
+        }
+      );
 
-      const updateOverallProgress = () => {
-        uploadProgress.value = Math.round((videoProgress + thumbProgress) / 2)
-      }
-
-      const videoUrl = form.value.video
-        ? await uploadToCloudinary(
-            form.value.video,
-            'upload_preset_video',
-            'video',
-            'video',
-            (p) => {
-              videoProgress = p
-              updateOverallProgress()
-            },
-          )
-        : initialForm?.video_url
-
-      const thumbUrl = form.value.thumbnail
-        ? await uploadToCloudinary(
-            form.value.thumbnail,
-            'upload_preset_thumbnail',
-            'thumbnail',
-            'image',
-            (p) => {
-              thumbProgress = p
-              updateOverallProgress()
-            },
-          )
-        : initialForm?.thumbnail_url
-
-      const payload = {
+      const videoSigResponse = await axios.post('/cloudinary/generate-upload-signature', {
+        type: 'video',
         title: form.value.title,
         description: form.value.description,
         category_id: form.value.category_id,
         user_id: authStore.user.id,
-        video_url: videoUrl,
         thumbnail_url: thumbUrl,
-        duration,
-      }
+      });
 
-      if (mode === 'edit' && videoId) {
-        await axios.put(`/videos/${videoId}`, {
-          ...payload,
-          user_id: undefined,
-        })
-      } else {
-        await axios.post('/videos', payload)
-      }
+      await uploadWithSignature(
+        form.value.video,
+        'video',
+        videoSigResponse.data.signature, // << PERBAIKAN DI SINI
+        (p) => {
+          videoProgress.value = p;
+          uploadProgress.value = Math.round((videoProgress.value + thumbProgress.value) / 2);
+        }
+      );
 
-      toast.success('Video berhasil diupload')
-      return router.push('/admin/videos')
+      toast.success('Upload berhasil! Video Anda sedang diproses.');
+      return router.push('/admin/videos');
+
     } catch (err) {
       console.error(err)
       toast.error('Terjadi kesalahan saat mengupload video')
@@ -176,25 +158,32 @@ export function useUploadForm({ mode = 'create', initialForm = null, videoId = n
     }
   }
 
-  const uploadToCloudinary = async (file, preset, folder, type = 'image', onProgress) => {
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('upload_preset', preset)
-    formData.append('folder', folder)
+  const uploadWithSignature = async (file, type, signatureData, onProgress) => {
+    const { signature, timestamp, params, api_key } = signatureData;
+    const formData = new FormData();
 
-    const endpoint = `https://api.cloudinary.com/v1_1/dr2nxslaq/${type}/upload`
+    formData.append('file', file);
+    formData.append('api_key', api_key);
+    formData.append('timestamp', timestamp);
+    formData.append('signature', signature);
+
+    Object.keys(params).forEach(key => {
+      formData.append(key, params[key]);
+    });
+
+    const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${type}/upload`;
 
     const res = await axiosRaw.post(endpoint, formData, {
       onUploadProgress(e) {
         if (e.lengthComputable && onProgress) {
-          const progress = Math.round((e.loaded / e.total) * 100)
-          onProgress(progress)
+          const progress = Math.round((e.loaded / e.total) * 100);
+          onProgress(progress);
         }
       },
-    })
+    });
 
-    if (res.data.secure_url) return res.data.secure_url
-    throw new Error('Upload ke Cloudinary gagal')
+    if (res.data.secure_url) return res.data.secure_url;
+    throw new Error(`Upload ${type} ke Cloudinary gagal`);
   }
 
   const showError = (text) => {
